@@ -1,0 +1,33 @@
+--- 
+specs: 
+- rake: 
+    version: 0.8.7
+- json_pure: 
+    version: 1.2.3
+- gemcutter: 
+    version: 0.5.0
+- git: 
+    version: 1.2.5
+- rubyforge: 
+    version: 2.0.4
+- jeweler: 
+    version: 1.4.0
+- rspec: 
+    version: 1.2.9
+hash: b4975ed486ecc86bbbcf5093b847a2a561bae958
+sources: 
+- Rubygems: 
+    uri: http://gemcutter.org
+dependencies: 
+  rspec: 
+    version: = 1.2.9
+    group: 
+    - :development
+  rake: 
+    version: = 0.8.7
+    group: 
+    - :development
+  jeweler: 
+    version: = 1.4.0
+    group: 
+    - :development
