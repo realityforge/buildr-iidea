@@ -13,7 +13,7 @@ class GemfileGemspecCreator
     instance_eval File.read('Gemfile')
   end
 
-  def gem(name, version)
+  def gem(name, version=nil)
     case @group.to_sym
     when :development
       @gemspec.add_development_dependency(name, version)
@@ -44,6 +44,9 @@ begin
     gem.authors = ["Rhett Sutphin"]
 
     GemfileGemspecCreator.new(gem)
+
+    # Exclude test-only vendored buildr
+    gem.files.exclude("vendor/**/*")
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError => e
@@ -63,7 +66,7 @@ Spec::Rake::SpecTask.new(:rcov) do |spec|
   spec.rcov = true
 end
 
-task :spec => :check_dependencies
+task :spec
 
 task :default => :spec
 
