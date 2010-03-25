@@ -56,10 +56,10 @@ module Buildr
       end
 
       project.task("iidea:clean") do
-        files.each { |f|
+        files.each do |f|
           info "Removing #{f.filename}" if File.exist?(f.filename)
           rm_rf f.filename
-        }
+        end
       end
     end
 
