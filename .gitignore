@@ -21,3 +21,6 @@ pkg
 
 ## PROJECT::SPECIFIC
 *.gemspec
+
+## IDE files
+buidlr-iidea.iml
