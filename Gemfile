@@ -15,7 +15,7 @@ group :development do
   gem 'highline',            '1.5.1'
   gem 'rubyforge',           '2.0.4'
   gem 'hoe',                 '2.3.3'
-  gem 'rjb',                 '1.2.0'
+  gem 'rjb',                 '1.2.0' if RUBY_PLATFORM.to_s != 'java'
   gem 'Antwrap',             '0.7.0'
   gem 'rspec',               '1.2.9'
   gem 'xml-simple',          '1.0.12'

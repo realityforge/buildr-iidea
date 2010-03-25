@@ -1,97 +1,91 @@
 --- 
-specs: 
-- rake: 
-    version: 0.8.7
-- json_pure: 
-    version: 1.2.3
-- rubyforge: 
-    version: 2.0.4
-- hoe: 
-    version: 2.3.3
-- rjb: 
-    version: 1.2.0
-- Antwrap: 
-    version: 0.7.0
-- archive-tar-minitar: 
-    version: 0.5.2
-- builder: 
-    version: 2.1.2
-- gemcutter: 
-    version: 0.5.0
-- git: 
-    version: 1.2.5
-- highline: 
-    version: 1.5.1
-- jeweler: 
-    version: 1.4.0
-- net-ssh: 
-    version: 2.0.15
-- net-sftp: 
-    version: 2.0.2
-- rspec: 
-    version: 1.2.9
-- rubyzip: 
-    version: 0.9.1
-- xml-simple: 
-    version: 1.0.12
-hash: 30ed10a14d5b4e2409f5c4ba4b68214c1615c154
+hash: 6a84a59903b29e7d1747f42830fa96979120ca11
 sources: 
-- Rubygems: 
-    uri: http://gemcutter.org
+  - Rubygems: 
+      uri: http://gemcutter.org
+specs: 
+  - rake: 
+      version: 0.8.7
+  - json_pure: 
+      version: 1.2.3
+  - rubyforge: 
+      version: 2.0.4
+  - hoe: 
+      version: 2.3.3
+  - Antwrap: 
+      version: 0.7.0
+  - archive-tar-minitar: 
+      version: 0.5.2
+  - builder: 
+      version: 2.1.2
+  - gemcutter: 
+      version: 0.5.0
+  - git: 
+      version: 1.2.5
+  - highline: 
+      version: 1.5.1
+  - jeweler: 
+      version: 1.4.0
+  - net-ssh: 
+      version: 2.0.15
+  - net-sftp: 
+      version: 2.0.2
+  - rspec: 
+      version: 1.2.9
+  - rubyzip: 
+      version: 0.9.1
+  - xml-simple: 
+      version: 1.0.12
 dependencies: 
-  rubyzip: 
-    version: = 0.9.1
-    group: 
-    - :development
-  highline: 
-    version: = 1.5.1
-    group: 
-    - :development
-  rspec: 
-    version: = 1.2.9
-    group: 
-    - :development
-  rubyforge: 
-    version: = 2.0.4
-    group: 
-    - :development
-  rake: 
-    version: = 0.8.7
-    group: 
-    - :development
-  net-sftp: 
-    version: = 2.0.2
-    group: 
-    - :development
-  archive-tar-minitar: 
-    version: = 0.5.2
-    group: 
-    - :development
-  net-ssh: 
-    version: = 2.0.15
-    group: 
-    - :development
-  hoe: 
-    version: = 2.3.3
-    group: 
-    - :development
-  xml-simple: 
-    version: = 1.0.12
-    group: 
-    - :development
   jeweler: 
     version: = 1.4.0
     group: 
-    - :development
+      - :development
+  rake: 
+    version: = 0.8.7
+    group: 
+      - :development
   builder: 
     version: = 2.1.2
     group: 
-    - :development
-  rjb: 
-    version: = 1.2.0
+      - :development
+  net-ssh: 
+    version: = 2.0.15
     group: 
-    - :development
+      - :development
+  net-sftp: 
+    version: = 2.0.2
+    group: 
+      - :development
+  rubyzip: 
+    version: = 0.9.1
+    group: 
+      - :development
+  highline: 
+    version: = 1.5.1
+    group: 
+      - :development
+  rubyforge: 
+    version: = 2.0.4
+    group: 
+      - :development
+  hoe: 
+    version: = 2.3.3
+    group: 
+      - :development
   Antwrap: 
     version: = 0.7.0
     group: 
-    - :development
+      - :development
+  rspec: 
+    version: = 1.2.9
+    group: 
+      - :development
+  xml-simple: 
+    version: = 1.0.12
+    group: 
+      - :development
+  archive-tar-minitar: 
+    version: = 0.5.2
+    group: 
+      - :development
