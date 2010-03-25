@@ -12,7 +12,7 @@ unless defined?(SpecHelpers)
     def SandboxHook.included(spec_helpers)
       $LOAD_PATH.unshift(File.dirname(__FILE__))
       $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
-      require 'buildr/iidea'
+      require 'buildr_iidea'
     end
   end
 
