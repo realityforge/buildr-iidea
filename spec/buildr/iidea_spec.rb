@@ -49,4 +49,30 @@ describe "iidea" do
       $messages[:info].should include("Writing #{@foo._('foo-iidea.ipr')}")
     end
   end
+
+  describe "IPR generation with empty suffix" do
+    before do
+      Buildr::IntellijIdea::IdeaFile.suffix = ''
+      mkdir_p 'bar'
+      mkdir_p 'baz'
+
+      @foo = define "foo" do
+        define 'bar'
+        define 'baz'
+      end
+      task('iidea').invoke
+    end
+
+    it "generates an IPR at the top level" do
+      File.exist?(@foo._("foo.ipr")).should be_true
+    end
+
+    it "only generates one IPR" do
+      Dir[@foo._("**/*.ipr")].should have(1).entry
+    end
+
+    it "informs the user about what it's doing" do
+      $messages[:info].should include("Writing #{@foo._('foo.ipr')}")
+    end
+  end
 end

@@ -22,7 +22,7 @@ module Buildr
       attr_accessor :template, :vcs
 
       def filename
-        buildr_project.path_to("#{buildr_project.name}-iidea.ipr")
+        buildr_project.path_to("#{buildr_project.name}#{self.class.suffix}.ipr")
       end
 
       def template

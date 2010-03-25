@@ -33,7 +33,7 @@ module Buildr
       end
 
       def name
-        "#{buildr_project.id}-iidea"
+        "#{buildr_project.id}#{self.class.suffix}"
       end
 
       def main_source_directories
