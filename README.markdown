@@ -20,8 +20,7 @@ than that included in buildr itself.
 
 ## Compatibility
 
-It's been tested with IDEA 7.x and IDEA 8.x only, though it probably
-will work with later versions also.
+It's been tested with IDEA 7.x, IDEA 8.x and IDEA 9.x
 
 ## Note on Patches/Pull Requests
 
