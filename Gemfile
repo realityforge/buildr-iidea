@@ -20,4 +20,5 @@ group :development do
   gem 'rspec',               '1.2.9'
   gem 'xml-simple',          '1.0.12'
   gem 'archive-tar-minitar', '0.5.2'
+  gem 'jruby-openssl',       '0.5.2' if RUBY_PLATFORM.to_s == 'java'
 end

@@ -1,5 +1,5 @@
 --- 
-hash: 6a84a59903b29e7d1747f42830fa96979120ca11
+hash: 0f526f2defe09983624ee944c884262455c4d59c
 sources: 
   - Rubygems: 
       uri: http://gemcutter.org
@@ -26,6 +26,8 @@ specs:
       version: 1.5.1
   - jeweler: 
       version: 1.4.0
+  - jruby-openssl: 
+      version: 0.5.2
   - net-ssh: 
       version: 2.0.15
   - net-sftp: 
@@ -86,6 +88,10 @@ dependencies:
     group: 
       - :development
   archive-tar-minitar: 
+    version: = 0.5.2
+    group: 
+      - :development
+  jruby-openssl: 
     version: = 0.5.2
     group: 
       - :development
