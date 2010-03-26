@@ -25,3 +25,5 @@ pkg
 ## IDE files
 *.iml
 .rakeTasks
+*.ipr
+*.iws
