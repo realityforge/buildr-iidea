@@ -1,6 +1,9 @@
 TODO
 ----
 
+* Determine a mechanism for figuring out which dependencies are "exported" and
+which are local. SHould it default to being exported?
+
 * Refactor the test story so that it does not require that bundlr is vendored
 in and instead can make use of it via an environment variable or other setting.
 
