@@ -91,7 +91,13 @@ module Buildr
           generate_content(xml)
           generate_order_entries(project_libs, xml)
 
-          ext_libs = m2_libs.map { |path| "jar://#{path.to_s.sub(m2repo, "$M2_REPO$")}!/" }
+          ext_libs = m2_libs.map do |path|
+            entry_path = path.to_s
+            unless Buildr::IntellijIdea::Config.absolute_path_for_local_repository?
+              entry_path = entry_path.sub(m2repo, "$M2_REPO$")
+            end
+            "jar://#{entry_path}!/"
+          end
           [buildr_project.test.resources.target, buildr_project.resources.target].compact.each do |resource|
             ext_libs << "#{MODULE_DIR_URL}/#{relative(resource.to_s)}"
           end
