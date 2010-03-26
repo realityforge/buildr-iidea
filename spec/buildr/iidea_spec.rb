@@ -63,6 +63,10 @@ describe "iidea" do
       task('iidea').invoke
     end
 
+    after do
+      Buildr::IntellijIdea::Config.suffix = Buildr::IntellijIdea::Config::DEFAULT_SUFFIX
+    end
+
     it "generates an IPR at the top level" do
       File.exist?(@foo._("foo.ipr")).should be_true
     end
