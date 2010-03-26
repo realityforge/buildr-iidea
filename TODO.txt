@@ -1,8 +1,11 @@
 TODO
 ----
 
+* Make it possible to merge into the module/project files that already exist on
+the file system and rather than replacing them.  
+
 * Determine a mechanism for figuring out which dependencies are "exported" and
-which are local. SHould it default to being exported?
+which are local. Should it default to being exported?
 
 * Refactor the test story so that it does not require that bundlr is vendored
 in and instead can make use of it via an environment variable or other setting.
