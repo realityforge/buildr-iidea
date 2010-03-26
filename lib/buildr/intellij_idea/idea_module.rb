@@ -33,7 +33,7 @@ module Buildr
       end
 
       def name
-        "#{buildr_project.id}#{self.class.suffix}"
+        "#{buildr_project.id}#{Buildr::IntellijIdea::Config.suffix}"
       end
 
       def main_source_directories

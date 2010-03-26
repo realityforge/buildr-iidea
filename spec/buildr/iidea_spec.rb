@@ -52,7 +52,7 @@ describe "iidea" do
 
   describe "IPR generation with empty suffix" do
     before do
-      Buildr::IntellijIdea::IdeaFile.suffix = ''
+      Buildr::IntellijIdea::Config.suffix = ''
       mkdir_p 'bar'
       mkdir_p 'baz'
 

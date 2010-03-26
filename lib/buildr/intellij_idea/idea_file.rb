@@ -20,16 +20,6 @@ module Buildr
   module IntellijIdea
     # Abstract base class for IdeaModule and IdeaProject
     class IdeaFile
-      @@suffix = "-iidea" unless defined? @@suffix
-
-      def self.suffix
-        @@suffix
-      end
-
-      def self.suffix=(suffix)
-        @@suffix = suffix
-      end
-
       attr_reader :buildr_project
 
       def initialize(buildr_project)
