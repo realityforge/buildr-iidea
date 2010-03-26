@@ -1,0 +1,45 @@
+TODO
+----
+
+* Fix dependencies through no_iml projects. Useful for wrap OSGi bundles that
+have no dir and thus we probably should not create the module file.
+
+* Make it possible to generate the parent dir for the module file if it does not
+exist.
+
+* Add the ability for the module and project files to be generated off into a
+different directory hierarchy. i.e. Generate project modules into .idea_project
+in base directory
+
+* Add the ability for the module and project files to be generated off into a
+different directory hierarchy. i.e. Generate project modules into .idea_project
+in base directory
+
+* Generate component elements for "ProjectRootManager", "JavacSettings" and
+"CompilerConfiguration" based on compiler.options in the project file. Allow
+the user to override as appropriate
+
+* Minimize initial template. The template file as it currently stands has a lot of unintersting stuff in
+it. It could be stripped down to a bare bones verison something like the following. (Note some of these
+components will end up being generated during the build)
+
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <option name="DEFAULT_COMPILER" value="Javac" />
+    <resourceExtensions />
+    <wildcardResourcePatterns>
+      <entry name="!?*.java" />
+    </wildcardResourcePatterns>
+    <annotationProcessing enabled="false" useClasspath="true" />
+  </component>
+  <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false" />
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_STRING" value="-target 1.6" />
+  </component>
+  <component name="ProjectDetails">
+    <option name="projectName" value="jamex" />
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="1.6" project-jdk-type="JavaSDK" />
+</project>
+
