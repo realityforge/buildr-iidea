@@ -38,7 +38,7 @@ describe "iidea" do
     end
 
     it "generates an IPR at the top level" do
-      File.exist?(@foo._("foo-iidea.ipr")).should be_true
+      File.exist?(root_project_filename(@foo)).should be_true
     end
 
     it "only generates one IPR" do
@@ -46,7 +46,7 @@ describe "iidea" do
     end
 
     it "informs the user about what it's doing" do
-      $messages[:info].should include("Writing #{@foo._('foo-iidea.ipr')}")
+      $messages[:info].should include("Writing #{root_project_filename(@foo)}")
     end
   end
 end

@@ -19,16 +19,16 @@ unless defined?(SpecHelpers)
   require File.expand_path('../../vendor/buildr/spec/spec_helpers', __FILE__)
 
   module SpecHelpers
-    def root_project_filename(project_name)
-      "#{project_name}#{Buildr::IntellijIdea::IdeaFile::DEFAULT_SUFFIX}.ipr"
+    def root_project_filename(root)
+      root._("#{root.name}#{Buildr::IntellijIdea::IdeaFile::DEFAULT_SUFFIX}.ipr")
     end
 
-    def root_module_filename(project_name)
-      "#{project_name}#{Buildr::IntellijIdea::IdeaFile::DEFAULT_SUFFIX}.iml"
+    def root_module_filename(root)
+      root._("#{root.name}#{Buildr::IntellijIdea::IdeaFile::DEFAULT_SUFFIX}.iml")
     end
 
-    def subproject_module_filename(parent_project_name, project_name)
-      "#{project_name}/#{parent_project_name}-#{project_name}#{Buildr::IntellijIdea::IdeaFile::DEFAULT_SUFFIX}.iml"
+    def subproject_module_filename(root, sub_project_name)
+      root._("#{sub_project_name}/#{root.name}-#{sub_project_name}#{Buildr::IntellijIdea::IdeaFile::DEFAULT_SUFFIX}.iml")
     end
   end
 

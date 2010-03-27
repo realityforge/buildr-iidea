@@ -12,11 +12,11 @@ describe "iidea" do
     end
 
     it "generates an IPR at the top level" do
-      File.should be_exist(@foo._(root_project_filename("foo")))
+      File.should be_exist(root_project_filename(@foo))
     end
 
     it  "generates an IPR with correct module references" do
-      module_file = @foo._(root_project_filename("foo"))
+      module_file = root_project_filename(@foo)
       results = File.read(module_file)
       results.should =~ /file:\/\/\$PROJECT_DIR\$\/foo-iidea\.iml/
       results.should =~ /file:\/\/\$PROJECT_DIR\$\/bar\/foo-bar-iidea\.iml/

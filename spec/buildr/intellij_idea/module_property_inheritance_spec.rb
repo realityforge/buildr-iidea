@@ -12,13 +12,13 @@ describe "IdeaModule" do
     end
 
     it "generates root IML with specified type" do
-      module_file = @foo._("foo#{Buildr::IntellijIdea::IdeaFile::DEFAULT_SUFFIX}.iml")
+      module_file = root_module_filename(@foo)
       File.should be_exist(module_file)
       File.read(module_file).should =~ /FOO_MODULE_TYPE/
     end
 
     it "generates subproject IML with inherited type" do
-      module_file = @foo._("bar/foo-bar#{Buildr::IntellijIdea::IdeaFile::DEFAULT_SUFFIX}.iml")
+      module_file = subproject_module_filename(@foo,"bar")
       File.should be_exist(module_file)
       File.read(module_file).should =~ /FOO_MODULE_TYPE/
     end
