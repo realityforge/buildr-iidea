@@ -20,14 +20,17 @@ module Buildr
   module IntellijIdea
     class IdeaModule < IdeaFile
       DEFAULT_TYPE = "JAVA_MODULE"
+      DEFAULT_LOCAL_REPOSITORY_ENV_OVERRIDE = "M2_REPO"
       MODULE_DIR_URL = "file://$MODULE_DIR$"
 
-      attr_writer :buildr_project
-      attr_writer :type
-
-      def type
-        @type ||= DEFAULT_TYPE
+      def initialize
+        @type = DEFAULT_TYPE
+        @local_repository_env_override = DEFAULT_LOCAL_REPOSITORY_ENV_OVERRIDE
       end
+
+      attr_writer :buildr_project
+      attr_accessor :type
+      attr_accessor :local_repository_env_override
 
       def extension
         "iml"
@@ -90,8 +93,8 @@ module Buildr
 
           ext_libs = m2_libs.map do |path|
             entry_path = path.to_s
-            unless Buildr::IntellijIdea::Config.absolute_path_for_local_repository?
-              entry_path = entry_path.sub(m2repo, "$M2_REPO$")
+            unless self.local_repository_env_override.nil?
+              entry_path = entry_path.sub(m2repo, "$#{self.local_repository_env_override}$")
             end
             "jar://#{entry_path}!/"
           end
