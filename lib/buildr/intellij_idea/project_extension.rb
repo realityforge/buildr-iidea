@@ -46,8 +46,10 @@ module Buildr
         ].compact
 
         files.each do |ideafile|
+          module_dir =  File.dirname(ideafile.filename)
+          directory(module_dir)
           iidea.enhance [ file(ideafile.filename) ]
-          file(ideafile.filename => Buildr.application.buildfile) do |task|
+          file(ideafile.filename => [Buildr.application.buildfile, module_dir]) do |task|
             File.open(task.name, 'w') do |f|
               info "Writing #{task.name}"
               ideafile.write f

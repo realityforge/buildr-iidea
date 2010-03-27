@@ -28,7 +28,6 @@ describe "iidea" do
   describe "IPR generation" do
     before do
       mkdir_p 'bar'
-      mkdir_p 'baz'
 
       @foo = define "foo" do
         define 'bar'
