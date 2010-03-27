@@ -16,9 +16,6 @@ overhead approach.
 * Fix dependencies through no_iml projects. Useful for wrap OSGi bundles that
 have no dir and thus we probably should not create the module file.
 
-* Make it possible to generate the parent dir for the module file if it does not
-exist.
-
 * Add the ability for the module and project files to be generated off into a
 different directory hierarchy. i.e. Generate project modules into .idea_project
 in base directory
