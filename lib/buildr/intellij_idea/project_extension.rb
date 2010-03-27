@@ -77,7 +77,11 @@ module Buildr
 
       def iml
         if iml?
-          @iml ||= IdeaModule.new(self)
+          unless @iml
+            @iml = self.parent ? self.parent.iml.clone : IdeaModule.new
+            @iml.buildr_project = self
+          end
+          return @iml
         else
           raise "IML generation is disabled for #{self.name}"
         end

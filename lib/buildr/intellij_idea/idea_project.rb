@@ -21,6 +21,10 @@ module Buildr
     class IdeaProject < IdeaFile
       attr_accessor :template, :vcs
 
+      def initialize(buildr_project)
+        @buildr_project = buildr_project
+      end
+      
       def filename
         buildr_project.path_to("#{buildr_project.name}#{Buildr::IntellijIdea::Config.suffix}.ipr")
       end

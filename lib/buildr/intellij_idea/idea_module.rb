@@ -22,6 +22,7 @@ module Buildr
       DEFAULT_TYPE = "JAVA_MODULE"
       MODULE_DIR_URL = "file://$MODULE_DIR$"
 
+      attr_writer :buildr_project
       attr_writer :type
 
       def type

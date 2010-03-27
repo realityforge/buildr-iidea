@@ -22,10 +22,6 @@ module Buildr
     class IdeaFile
       attr_reader :buildr_project
 
-      def initialize(buildr_project)
-        @buildr_project = buildr_project
-      end
-
       def self.component(name, attrs = {})
         markup = Builder::XmlMarkup.new(:target => StringIO.new, :indent => 2)
         markup.component(attrs.merge({ :name => name })) do |xml|
