@@ -26,7 +26,7 @@ module Buildr
       end
       
       def filename
-        buildr_project.path_to("#{buildr_project.name}#{Buildr::IntellijIdea::Config.suffix}.ipr")
+        buildr_project.path_to("#{buildr_project.name}#{self.suffix}.ipr")
       end
 
       def template

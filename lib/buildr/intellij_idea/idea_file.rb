@@ -20,7 +20,15 @@ module Buildr
   module IntellijIdea
     # Abstract base class for IdeaModule and IdeaProject
     class IdeaFile
+      DEFAULT_SUFFIX = "-iidea"
+
       attr_reader :buildr_project
+
+      attr_writer :suffix
+
+      def suffix
+        @suffix ||= DEFAULT_SUFFIX
+      end
 
       def self.component(name, attrs = {})
         markup = Builder::XmlMarkup.new(:target => StringIO.new, :indent => 2)

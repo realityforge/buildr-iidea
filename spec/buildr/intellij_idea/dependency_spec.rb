@@ -12,7 +12,7 @@ describe "iidea" do
     end
 
     it "generates IML with a dependency" do
-      module_file = @foo._("foo#{Buildr::IntellijIdea::Config.suffix}.iml")
+      module_file = @foo._("foo#{Buildr::IntellijIdea::IdeaFile::DEFAULT_SUFFIX}.iml")
       File.should be_exist(module_file)
       File.read(module_file).should =~ /jar:\/\/\$M2_REPO\$\/group\/id\/1\.0\/id-1\.0\.jar\!\//
     end
@@ -35,7 +35,7 @@ describe "iidea" do
     end
 
     it "generates IML with a dependency" do
-      module_file = @foo._("foo#{Buildr::IntellijIdea::Config.suffix}.iml")
+      module_file = @foo._("foo#{Buildr::IntellijIdea::IdeaFile::DEFAULT_SUFFIX}.iml")
       File.should be_exist(module_file)
       File.read(module_file).should_not =~ /\$M2_REPO\$/
     end

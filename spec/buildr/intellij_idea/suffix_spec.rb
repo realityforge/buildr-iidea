@@ -37,19 +37,16 @@ describe "iidea" do
 
   describe "IPR generation with empty suffix" do
     before do
-      Buildr::IntellijIdea::Config.suffix = ''
       mkdir_p 'bar'
       mkdir_p 'baz'
 
       @foo = define "foo" do
+        ipr.suffix = ''
+        iml.suffix = ''
         define 'bar'
         define 'baz'
       end
       task('iidea').invoke
-    end
-
-    after do
-      Buildr::IntellijIdea::Config.suffix = Buildr::IntellijIdea::Config::DEFAULT_SUFFIX
     end
 
     it "generates an IPR at the top level" do
