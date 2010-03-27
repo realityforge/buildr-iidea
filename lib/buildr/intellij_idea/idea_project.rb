@@ -24,9 +24,9 @@ module Buildr
       def initialize(buildr_project)
         @buildr_project = buildr_project
       end
-      
-      def filename
-        buildr_project.path_to("#{buildr_project.name}#{self.suffix}.ipr")
+
+      def extension
+        "ipr"
       end
 
       def template

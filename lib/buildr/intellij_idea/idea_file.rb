@@ -30,6 +30,14 @@ module Buildr
         @suffix ||= DEFAULT_SUFFIX
       end
 
+      def filename
+        buildr_project.path_to("#{name}.#{extension}")
+      end
+
+      def name
+        "#{buildr_project.id}#{suffix}"
+      end
+
       def self.component(name, attrs = {})
         markup = Builder::XmlMarkup.new(:target => StringIO.new, :indent => 2)
         markup.component(attrs.merge({ :name => name })) do |xml|

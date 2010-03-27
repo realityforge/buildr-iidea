@@ -29,12 +29,8 @@ module Buildr
         @type ||= DEFAULT_TYPE
       end
 
-      def filename
-        buildr_project.path_to("#{name}.iml")
-      end
-
-      def name
-        "#{buildr_project.id}#{self.suffix}"
+      def extension
+        "iml"
       end
 
       def main_source_directories
