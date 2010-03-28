@@ -1,6 +1,10 @@
 TODO
 ----
 
+* Make it possible to use project.name.split(':').last to generate the module
+name so that the module file name matches dir name. (Less distracting in idea).
+Make this the default behaviour?
+
 * Make it possible to merge into the module/project files that already exist on
 the file system and rather than replacing them.  
 
