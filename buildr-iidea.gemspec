@@ -14,12 +14,12 @@ Better defaults and more configurable than the built-in idea7x task.
   spec.platform       = RUBY_PLATFORM[/java/]
   
   spec.files          = Dir['{lib,spec}/**/*', '*.gemspec'] +
-                        ['LICENSE', 'NOTICE', 'CHANGELOG', 'README.markdown', 'Rakefile']
+                        ['LICENSE', 'NOTICE', 'CHANGELOG', 'README.rdoc', 'Rakefile']
   spec.require_paths  = 'lib'
 
   spec.has_rdoc         = true
-  spec.extra_rdoc_files = 'README.markdown', 'CHANGELOG', 'LICENSE', 'NOTICE'
-  spec.rdoc_options     = '--title', 'Buildr iidea', '--main', 'README.markdown'
+  spec.extra_rdoc_files = 'README.rdoc', 'CHANGELOG', 'LICENSE', 'NOTICE'
+  spec.rdoc_options     = '--title', "#{spec.name} #{spec.version}", '--main', 'README.rdoc'
 
   #TODO: Can this be made into a range of version compatibility?
   spec.add_dependency 'buildr',           '1.4.0'
