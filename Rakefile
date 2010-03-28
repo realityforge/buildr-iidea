@@ -16,16 +16,15 @@ Spec::Rake::SpecTask.new(:rcov) do |spec|
   spec.rcov = true
 end
 
-task :spec
-
 task :default => :spec
 
-
-Rake::RDocTask.new do |rdoc|
+desc "Generate RDoc documentation in rdoc/"
+Rake::RDocTask.new :rdoc do |rdoc|
   rdoc.rdoc_dir = 'rdoc'
-  rdoc.title = "buildr-iidea #{gem_spec.version}"
-  rdoc.rdoc_files.include('README*')
+  rdoc.title = gem_spec.name
+  rdoc.options = gem_spec.rdoc_options.clone
   rdoc.rdoc_files.include('lib/**/*.rb')
+  rdoc.rdoc_files.include gem_spec.extra_rdoc_files
 end
 
 Rake::GemPackageTask.new(gem_spec) do |pkg|
