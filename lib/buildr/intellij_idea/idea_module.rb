@@ -146,13 +146,13 @@ module Buildr
 
         # Classpath elements from other projects
         project_libs.uniq.select { |p| p.iml? }.collect { |p| p.iml.name }.sort.each do |other_project|
-          xml.orderEntry :type => 'module', "module-name" => other_project
+          xml.orderEntry :type => 'module', "module-name" => other_project, :exported => ""
         end
       end
 
       def generate_module_libs(xml, ext_libs)
         ext_libs.each do |path|
-          xml.orderEntry :type => "module-library" do
+          xml.orderEntry :type => "module-library", :exported => "" do
             xml.library do
               xml.CLASSES do
                 xml.root :url => path
