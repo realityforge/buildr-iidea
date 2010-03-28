@@ -1,10 +1,18 @@
-begin
-  require File.expand_path("../../.bundle/environment", __FILE__)
-rescue LoadError
-  raise "Gem environment is not prepared.  Run `bundle install` before running specs."
+require 'spec'
+
+DEFAULT_BUILDR_DIR=File.expand_path(File.dirname(__FILE__) + '/../../buildr')
+BUILDR_DIR=ENV['BUILDR_DIR'] || DEFAULT_BUILDR_DIR
+
+unless File.exist?("#{BUILDR_DIR}/buildr.gemspec")
+  raise "Unable to find buildr.gemspec in #{BUILDR_DIR == DEFAULT_BUILDR_DIR ? 'guessed' : 'specified'} $BUILD_DIR (#{BUILDR_DIR})"
 end
 
-require 'spec'
+require 'rubygems'
+
+# For testing we use the gem requirements specified on the buildr.gemspec
+Gem::Specification.load(File.expand_path("#{BUILDR_DIR}/buildr.gemspec", File.dirname(__FILE__))).
+    dependencies.each { |dep| gem dep.name, dep.requirement.to_s }
+
 
 # hook into buildr's spec_helpers load process
 unless defined?(SpecHelpers)
@@ -16,7 +24,7 @@ unless defined?(SpecHelpers)
     end
   end
 
-  require File.expand_path('../../vendor/buildr/spec/spec_helpers', __FILE__)
+  require "#{BUILDR_DIR}/spec/spec_helpers.rb"
 
   module SpecHelpers
     def root_project_filename(root)
