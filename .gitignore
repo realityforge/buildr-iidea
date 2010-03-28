@@ -19,9 +19,6 @@ rdoc
 pkg
 .bundle
 
-## PROJECT::SPECIFIC
-*.gemspec
-
 ## IDE files
 *.iml
 .rakeTasks
