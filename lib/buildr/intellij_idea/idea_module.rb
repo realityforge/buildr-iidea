@@ -23,14 +23,14 @@ module Buildr
       DEFAULT_LOCAL_REPOSITORY_ENV_OVERRIDE = "M2_REPO"
       MODULE_DIR_URL = "file://$MODULE_DIR$"
 
+      attr_writer :buildr_project
+      attr_accessor :type
+      attr_accessor :local_repository_env_override
+      
       def initialize
         @type = DEFAULT_TYPE
         @local_repository_env_override = DEFAULT_LOCAL_REPOSITORY_ENV_OVERRIDE
       end
-
-      attr_writer :buildr_project
-      attr_accessor :type
-      attr_accessor :local_repository_env_override
 
       def extension
         "iml"
