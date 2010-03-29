@@ -18,7 +18,7 @@ describe "IdeaModule" do
     end
 
     it "generates subproject IML with inherited type" do
-      module_file = subproject_module_filename(@foo,"bar")
+      module_file = subproject_module_filename(@foo, "bar")
       File.should be_exist(module_file)
       File.read(module_file).should =~ /FOO_MODULE_TYPE/
     end

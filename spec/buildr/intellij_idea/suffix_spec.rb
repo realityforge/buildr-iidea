@@ -1,7 +1,7 @@
 require File.expand_path('../../../spec_helper', __FILE__)
 
 describe "iidea" do
-  describe "Artifact generation with default suffix" do
+  describe "artifact generation with default suffix" do
     before do
       mkdir_p 'bar'
 
@@ -18,8 +18,8 @@ describe "iidea" do
     it  "generates an IPR with correct module references" do
       module_file = root_project_filename(@foo)
       results = File.read(module_file)
-      results.should =~ /file:\/\/\$PROJECT_DIR\$\/foo-iidea\.iml/
-      results.should =~ /file:\/\/\$PROJECT_DIR\$\/bar\/foo-bar-iidea\.iml/
+      results.include?('file://$PROJECT_DIR$/foo-iidea.iml').should be_true
+      results.include?('file://$PROJECT_DIR$/bar/bar-iidea.iml').should be_true
     end
 
     it "generates an IML at the top level" do
@@ -27,7 +27,7 @@ describe "iidea" do
     end
 
     it "generates an IML in subprojects" do
-      File.should be_exist(@foo._("bar/foo-bar-iidea.iml"))
+      File.should be_exist(@foo._("bar/bar-iidea.iml"))
     end
   end
 
@@ -50,8 +50,8 @@ describe "iidea" do
     it  "generates an IPR with correct module references" do
       module_file = @foo._("foo.ipr")
       results = File.read(module_file)
-      results.should =~ /file:\/\/\$PROJECT_DIR\$\/foo\.iml/
-      results.should =~ /file:\/\/\$PROJECT_DIR\$\/bar\/foo-bar\.iml/
+      results.include?('file://$PROJECT_DIR$/foo.iml').should be_true
+      results.include?('file://$PROJECT_DIR$/bar/bar.iml').should be_true
     end
 
     it "generates an IML at the top level" do
@@ -59,7 +59,7 @@ describe "iidea" do
     end
 
     it "generates an IML in subprojects" do
-      File.should be_exist(@foo._("bar/foo-bar.iml"))
+      File.should be_exist(@foo._("bar/bar.iml"))
     end
 
   end
@@ -83,8 +83,8 @@ describe "iidea" do
     it  "generates an IPR with correct module references" do
       module_file = @foo._("foo-X.ipr")
       results = File.read(module_file)
-      results.should =~ /file:\/\/\$PROJECT_DIR\$\/foo-Y\.iml/
-      results.should =~ /file:\/\/\$PROJECT_DIR\$\/bar\/foo-bar-Y\.iml/
+      results.include?('file://$PROJECT_DIR$/foo-Y.iml').should be_true
+      results.include?('file://$PROJECT_DIR$/bar/bar-Y.iml').should be_true
     end
 
     it "generates an IML at the top level" do
@@ -92,7 +92,7 @@ describe "iidea" do
     end
 
     it "generates an IML in subprojects" do
-      File.should be_exist(@foo._("bar/foo-bar-Y.iml"))
+      File.should be_exist(@foo._("bar/bar-Y.iml"))
     end
 
   end

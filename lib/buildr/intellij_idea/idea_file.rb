@@ -23,8 +23,8 @@ module Buildr
       DEFAULT_SUFFIX = "-iidea"
 
       attr_reader :buildr_project
-
       attr_writer :suffix
+      attr_writer :id
 
       def suffix
         @suffix ||= DEFAULT_SUFFIX
@@ -34,8 +34,12 @@ module Buildr
         buildr_project.path_to("#{name}.#{extension}")
       end
 
+      def id
+        @id ||= buildr_project.name.split(':').last
+      end
+
       def name
-        "#{buildr_project.id}#{suffix}"
+        "#{self.id}#{suffix}"
       end
 
       def self.component(name, attrs = {})

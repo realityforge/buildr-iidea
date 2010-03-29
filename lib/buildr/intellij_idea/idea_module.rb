@@ -26,10 +26,15 @@ module Buildr
       attr_writer :buildr_project
       attr_accessor :type
       attr_accessor :local_repository_env_override
-      
+
       def initialize
         @type = DEFAULT_TYPE
         @local_repository_env_override = DEFAULT_LOCAL_REPOSITORY_ENV_OVERRIDE
+      end
+
+      def buildr_project=(buildr_project)
+        @id = nil
+        @buildr_project = buildr_project
       end
 
       def extension

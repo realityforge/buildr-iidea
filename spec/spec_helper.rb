@@ -37,7 +37,7 @@ unless defined?(SpecHelpers)
     end
 
     def subproject_module_filename(root, sub_project_name)
-      root._("#{sub_project_name}/#{root.name}-#{sub_project_name}#{Buildr::IntellijIdea::IdeaFile::DEFAULT_SUFFIX}.iml")
+      root._("#{sub_project_name}/#{sub_project_name}#{Buildr::IntellijIdea::IdeaFile::DEFAULT_SUFFIX}.iml")
     end
   end
 
