@@ -97,4 +97,30 @@ describe "iidea" do
 
   end
 
+  describe "IPR generation with id values specified" do
+    before do
+      @foo = define "foo" do
+        ipr.id = "foosome"
+        ipr.suffix = ""
+        iml.id = "fooish"
+        iml.suffix = ""
+      end
+      task('iidea').invoke
+    end
+
+    it "generates an IPR at the top level" do
+      File.should be_exist(@foo._("foosome.ipr"))
+    end
+
+    it  "generates an IPR with correct module references" do
+      module_file = @foo._("foosome.ipr")
+      results = File.read(module_file)
+      results.include?('file://$PROJECT_DIR$/fooish.iml').should be_true
+    end
+
+    it "generates an IML at the top level" do
+      File.should be_exist(@foo._("fooish.iml"))
+    end
+  end
+
 end
