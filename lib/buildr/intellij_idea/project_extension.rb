@@ -46,11 +46,13 @@ module Buildr
         ].compact
 
         files.each do |ideafile|
-          module_dir =  File.dirname(ideafile.filename)
+          module_dir =  File.dirname(ideafile.filename)         
+          # Need to clear the actions else the extension included as part of buildr will run
+          file(ideafile.filename).clear_actions
           directory(module_dir)
           iidea.enhance [ file(ideafile.filename) ]
           file(ideafile.filename => [Buildr.application.buildfile, module_dir]) do |task|
-            File.open(task.name, 'w') do |f|
+            File.open(ideafile.filename, 'w') do |f|
               info "Writing #{task.name}"
               ideafile.write f
             end
