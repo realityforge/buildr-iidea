@@ -72,7 +72,7 @@ module Buildr
       def document
         doc = nil
         doc = load_document(self.template) if self.template
-        #doc = load_document(self.filename) if (doc.nil? && File.exist?(self.filename))
+        doc = load_document(self.filename) if (doc.nil? && File.exist?(self.filename))
         doc = base_document if doc.nil?
         # replace overridden components, if any
         self.components.each do |comp_elt|
