@@ -1,6 +1,8 @@
 TODO
 ----
 
+* Document the heck out of the current and expected behaviour 
+
 * Add specs for
   - template (for module and project)
   - using existing file (for module and project)
