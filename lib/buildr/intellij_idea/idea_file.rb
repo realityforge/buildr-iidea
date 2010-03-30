@@ -39,7 +39,7 @@ module Buildr
       end
 
       def add_component(name, attrs = {}, &xml)
-        self.components << IdeaFile.component(name, attrs, &xml)
+        self.components << create_component(name, attrs, &xml)
       end
 
       def write(f)
@@ -52,12 +52,12 @@ module Buildr
         "#{self.id}#{suffix}"
       end
 
-      def self.component(name, attrs = {})
-        markup = Builder::XmlMarkup.new(:target => StringIO.new, :indent => 2)
-        markup.component(attrs.merge({ :name => name })) do |xml|
+      def create_component(name, attrs = {})
+        target = StringIO.new
+        Builder::XmlMarkup.new(:target => target).component(attrs.merge({ :name => name })) do |xml|
           yield xml if block_given?
         end
-        REXML::Document.new(markup.target!.string).root
+        REXML::Document.new(target.string).root
       end
 
       def components

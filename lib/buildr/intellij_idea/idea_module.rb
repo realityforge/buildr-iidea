@@ -85,15 +85,15 @@ module Buildr
         buildr_project.test.compile.dependencies.map(&:to_s) - [ buildr_project.compile.target.to_s ]
       end
 
-      protected
-
-      def idea_module
-        self
+      def base_directory
+        buildr_project.path_to
       end
+
+      protected
 
       def base_document
         xml = Builder::XmlMarkup.new(:target => StringIO.new, :indent => 2)
-        xml.module(:version => "4", :relativePaths => "true", :type => idea_module.type)
+        xml.module(:version => "4", :relativePaths => "true", :type => self.type)
         REXML::Document.new(xml.target!.string)
       end
 
@@ -107,7 +107,7 @@ module Buildr
         m2repo = Buildr::Repositories.instance.local
 
         # Note: Use the test classpath since IDEA compiles both "main" and "test" classes using the same classpath
-        deps = idea_module.test_dependencies
+        deps = self.test_dependencies
         # Convert classpath elements into applicable Project objects
         deps.collect! { |path| Buildr.projects.detect { |prj| prj.packages.detect { |pkg| pkg.to_s == path } } || path }
         # project_libs: artifacts created by other projects
@@ -115,19 +115,19 @@ module Buildr
         # Separate artifacts from Maven2 repository
         m2_libs, others = others.partition { |path| path.to_s.index(m2repo) == 0 }
 
-        IdeaModule.component("NewModuleRootManager", "inherit-compiler-output" => "false") do |xml|
+        create_component("NewModuleRootManager", "inherit-compiler-output" => "false") do |xml|
           generate_compile_output(xml)
           generate_content(xml)
           generate_order_entries(project_libs, xml)
 
           ext_libs = m2_libs.map do |path|
             entry_path = path.to_s
-            unless idea_module.local_repository_env_override.nil?
-              entry_path = entry_path.sub(m2repo, "$#{idea_module.local_repository_env_override}$")
+            unless self.local_repository_env_override.nil?
+              entry_path = entry_path.sub(m2repo, "$#{self.local_repository_env_override}$")
             end
             "jar://#{entry_path}!/"
           end
-          idea_module.resources.each do |resource|
+          self.resources.each do |resource|
             ext_libs << "#{MODULE_DIR_URL}/#{relative(resource.to_s)}"
           end
 
@@ -137,12 +137,12 @@ module Buildr
       end
 
       def relative(path)
-        Util.relative_path(File.expand_path(path.to_s), buildr_project.path_to)
+        Util.relative_path(File.expand_path(path.to_s), self.base_directory)
       end
 
       def generate_compile_output(xml)
-        xml.output(:url => "#{MODULE_DIR_URL}/#{relative(idea_module.main_output_dir.to_s)}")
-        xml.tag!("output-test", :url => "#{MODULE_DIR_URL}/#{relative(idea_module.test_output_dir.to_s)}")
+        xml.output(:url => "#{MODULE_DIR_URL}/#{relative(self.main_output_dir.to_s)}")
+        xml.tag!("output-test", :url => "#{MODULE_DIR_URL}/#{relative(self.test_output_dir.to_s)}")
         xml.tag!("exclude-output")
       end
 
@@ -150,8 +150,8 @@ module Buildr
         xml.content(:url => MODULE_DIR_URL) do
           # Source folders
           {
-              :main => idea_module.main_source_directories,
-              :test => idea_module.test_source_directories
+              :main => self.main_source_directories,
+              :test => self.test_source_directories
           }.each do |kind, directories|
             directories.map { |dir| relative(dir) }.compact.sort.uniq.each do |dir|
               xml.sourceFolder :url => "#{MODULE_DIR_URL}/#{dir}", :isTestSource => (kind == :test ? 'true' : 'false')
@@ -159,7 +159,7 @@ module Buildr
           end
 
           # Exclude target directories
-          idea_module.net_excluded_directories.sort.each do |dir|
+          self.net_excluded_directories.sort.each do |dir|
             xml.excludeFolder :url => "#{MODULE_DIR_URL}/#{dir}"
           end
         end
@@ -192,7 +192,7 @@ module Buildr
       # Don't exclude things that are subdirectories of other excluded things
       def net_excluded_directories
         net = []
-        all = idea_module.excluded_directories.map { |dir| relative(dir.to_s) }.sort_by { |d| d.size }
+        all = self.excluded_directories.map { |dir| relative(dir.to_s) }.sort_by { |d| d.size }
         all.each_with_index do |dir, i|
           unless all[0 ... i].find { |other| dir =~ /^#{other}/ }
             net << dir
