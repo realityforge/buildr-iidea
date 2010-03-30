@@ -1,22 +1,15 @@
 TODO
 ----
 
-* Make it possible to use project.name.split(':').last to generate the module
-name so that the module file name matches dir name. (Less distracting in idea).
-Make this the default behaviour?
+* Add specs for
+  - template (for module and project)
+  - using existing file (for module and project)
 
-* Make it possible to merge into the module/project files that already exist on
-the file system and rather than replacing them.  
-
-* Determine a mechanism for figuring out which dependencies are "exported" and
-which are local. Should it default to being exported?
+* Make the compile dependencies exported and the test dependencies not exported.
+Currently all dependencies are exported.
 
 * Fix dependencies through no_iml projects. Useful for wrap OSGi bundles that
 have no dir and thus we probably should not create the module file.
-
-* Add the ability for the module and project files to be generated off into a
-different directory hierarchy. i.e. Generate project modules into .idea_project
-in base directory
 
 * Add the ability for the module and project files to be generated off into a
 different directory hierarchy. i.e. Generate project modules into .idea_project
