@@ -92,9 +92,9 @@ module Buildr
       protected
 
       def base_document
-        xml = Builder::XmlMarkup.new(:target => StringIO.new, :indent => 2)
-        xml.module(:version => "4", :relativePaths => "true", :type => self.type)
-        REXML::Document.new(xml.target!.string)
+        target = StringIO.new
+        Builder::XmlMarkup.new(:target => target).module(:version => "4", :relativePaths => "true", :type => self.type)
+        REXML::Document.new(target.string)
       end
 
       def default_components

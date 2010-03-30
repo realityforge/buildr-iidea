@@ -25,6 +25,7 @@ module Buildr
       attr_reader :buildr_project
       attr_writer :suffix
       attr_writer :id
+      attr_accessor :template
 
       def suffix
         @suffix ||= DEFAULT_SUFFIX
@@ -64,8 +65,15 @@ module Buildr
         @components ||= self.default_components
       end
 
+      def load_document(filename)
+        REXML::Document.new(File.read(filename))
+      end
+
       def document
-        doc = base_document
+        doc = nil
+        doc = load_document(self.template) if self.template
+        #doc = load_document(self.filename) if (doc.nil? && File.exist?(self.filename))
+        doc = base_document if doc.nil?
         # replace overridden components, if any
         self.components.each do |comp_elt|
           # execute deferred components

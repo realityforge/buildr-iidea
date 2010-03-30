@@ -19,13 +19,12 @@
 module Buildr
   module IntellijIdea
     class IdeaProject < IdeaFile
-      attr_accessor :template
       attr_accessor :vcs
 
       def initialize(buildr_project)
         @buildr_project = buildr_project
         @vcs = detect_vcs
-        @template = File.join(File.dirname(__FILE__), 'iidea.ipr.template')
+        self.template = File.join(File.dirname(__FILE__), 'iidea.ipr.template')
       end
 
       protected
@@ -43,7 +42,9 @@ module Buildr
       end
 
       def base_document
-        REXML::Document.new(File.read(template))
+        target = StringIO.new
+        Builder::XmlMarkup.new(:target => target).project(:version => "4", :relativePaths => "false")
+        REXML::Document.new(target.string)
       end
 
       def default_components
