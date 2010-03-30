@@ -42,6 +42,17 @@ module Buildr
         "#{self.id}#{suffix}"
       end
 
+      def add_component(name, attrs = {}, &xml)
+        self.components << IdeaFile.component(name, attrs, &xml)
+        self
+      end
+
+      def write(f)
+        document.write f
+      end
+
+      protected
+
       def self.component(name, attrs = {})
         markup = Builder::XmlMarkup.new(:target => StringIO.new, :indent => 2)
         markup.component(attrs.merge({ :name => name })) do |xml|
@@ -52,11 +63,6 @@ module Buildr
 
       def components
         @components ||= self.default_components
-      end
-
-      def add_component(name, attrs = {}, &xml)
-        self.components << IdeaFile.component(name, attrs, &xml)
-        self
       end
 
       def document
@@ -71,10 +77,6 @@ module Buildr
           end
         end
         doc
-      end
-
-      def write(f)
-        document.write f
       end
     end
   end
