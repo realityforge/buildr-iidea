@@ -40,7 +40,6 @@ module Buildr
 
       def add_component(name, attrs = {}, &xml)
         self.components << IdeaFile.component(name, attrs, &xml)
-        self
       end
 
       def write(f)
