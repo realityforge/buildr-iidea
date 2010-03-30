@@ -38,10 +38,6 @@ module Buildr
         @id ||= buildr_project.name.split(':').last
       end
 
-      def name
-        "#{self.id}#{suffix}"
-      end
-
       def add_component(name, attrs = {}, &xml)
         self.components << IdeaFile.component(name, attrs, &xml)
         self
@@ -52,6 +48,10 @@ module Buildr
       end
 
       protected
+
+      def name
+        "#{self.id}#{suffix}"
+      end
 
       def self.component(name, attrs = {})
         markup = Builder::XmlMarkup.new(:target => StringIO.new, :indent => 2)
