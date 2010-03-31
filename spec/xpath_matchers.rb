@@ -49,9 +49,9 @@ module Spec
       def matches?(response)
         @response = response
         doc = response.is_a?(REXML::Document) ? response : REXML::Document.new(@response)
-        ok= true
+        ok = true
         REXML::XPath.each(doc, @xpath) do |e|
-          @actual_val= case e
+          @actual_val = case e
           when REXML::Attribute
             e.to_s
           when REXML::Element
