@@ -16,6 +16,8 @@ TODO
   - template (for module and project)
   - using existing file (for module and project)
 
+* Support :base_dir when defining projects ala define('subproject', :base_dir => 'boo')
+
 * Make the compile dependencies exported and the test dependencies not exported.
 Currently all dependencies are exported.
 
