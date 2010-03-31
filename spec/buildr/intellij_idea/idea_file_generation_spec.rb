@@ -34,6 +34,25 @@ describe "generate task" do
       end
     end
 
+    describe "with no_iml generation disabled" do
+      before do
+        @foo = define "foo" do
+          project.no_iml
+        end
+        task('iidea').invoke
+      end
+
+      it "generates no IML" do
+        Dir[@foo._("**/*.iml")].should have(0).entry
+      end
+
+      it "generate an IPR with no references" do
+        File.should be_exist(@foo._("foo.ipr"))
+        doc = xml_document(@foo._("foo.ipr"))
+        doc.should have_nodes("#{MODULE_ENTRY_XPATH}", 0)
+      end
+    end
+
     describe "and id overrides" do
       before do
         @foo = define "foo" do
