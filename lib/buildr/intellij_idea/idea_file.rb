@@ -20,7 +20,7 @@ module Buildr
   module IntellijIdea
     # Abstract base class for IdeaModule and IdeaProject
     class IdeaFile
-      DEFAULT_SUFFIX = "-iidea"
+      DEFAULT_SUFFIX = ""
 
       attr_reader :buildr_project
       attr_writer :suffix
