@@ -4,6 +4,36 @@ MODULE_ENTRY_XPATH = "/project/component[@name='ProjectModuleManager']/modules/m
 
 describe "generate task" do
   describe "with a single project definition" do
+    describe "and default naming" do
+      before do
+        @foo = define "foo"
+        task('iidea').invoke
+      end
+
+      it "generates a single IPR" do
+        Dir[@foo._("**/*.ipr")].should have(1).entry
+      end
+
+      it "generate an IPR in the root directory" do
+        File.should be_exist(@foo._("foo.ipr"))
+      end
+
+      it "generates a single IML" do
+        Dir[@foo._("**/*.iml")].should have(1).entry
+      end
+
+      it "generates an IML in the root directory" do
+        File.should be_exist(@foo._("foo.iml"))
+      end
+
+      it "generate an IPR with the reference to correct module file" do
+        File.should be_exist(@foo._("foo.ipr"))
+        doc = xml_document(@foo._("foo.ipr"))
+        module_ref = "$PROJECT_DIR$/foo.iml"
+        doc.should have_nodes("#{MODULE_ENTRY_XPATH}[@fileurl='file://#{module_ref}', @filepath='#{module_ref}']", 1)
+      end
+    end
+
     describe "and id overrides" do
       before do
         @foo = define "foo" do
