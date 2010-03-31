@@ -58,6 +58,9 @@ describe "generate task" do
         @foo = define "foo" do
           ipr.id = 'fooble'
           iml.id = 'feap'
+          define "bar" do
+            iml.id = "baz"
+          end
         end
         task('iidea').invoke
       end
@@ -68,6 +71,10 @@ describe "generate task" do
 
       it "generates an IML in the root directory" do
         File.should be_exist(@foo._("feap.iml"))
+      end
+
+      it "generates an IML in the subproject directory" do
+        File.should be_exist(@foo._("bar/baz.iml"))
       end
 
       it "generate an IPR with the reference to correct module file" do
