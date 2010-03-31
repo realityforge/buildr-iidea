@@ -29,17 +29,35 @@ unless defined?(SpecHelpers)
   require "#{BUILDR_DIR}/spec/spec_helpers.rb"
 
   module SpecHelpers
-    def root_project_filename(root)
-      root._("#{root.name}#{Buildr::IntellijIdea::IdeaFile::DEFAULT_SUFFIX}.ipr")
+    def root_project_filename(project)
+      project._("#{project.name}#{Buildr::IntellijIdea::IdeaFile::DEFAULT_SUFFIX}.ipr")
     end
 
-    def root_module_filename(root)
-      root._("#{root.name}#{Buildr::IntellijIdea::IdeaFile::DEFAULT_SUFFIX}.iml")
+    def root_project_xml(project)
+      xml_document(root_project_filename(project))
     end
 
-    def subproject_module_filename(root, sub_project_name)
-      root._("#{sub_project_name}/#{sub_project_name}#{Buildr::IntellijIdea::IdeaFile::DEFAULT_SUFFIX}.iml")
+    def root_module_filename(project)
+      project._("#{project.name}#{Buildr::IntellijIdea::IdeaFile::DEFAULT_SUFFIX}.iml")
     end
+
+    def root_module_xml(project)
+      xml_document(root_module_filename(project))
+    end
+
+    def subproject_module_filename(project, sub_project_name)
+      project._("#{sub_project_name}/#{sub_project_name}#{Buildr::IntellijIdea::IdeaFile::DEFAULT_SUFFIX}.iml")
+    end
+
+    def subproject_module_xml(project, sub_project_name)
+      xml_document(subproject_module_filename(project, sub_project_name))
+    end
+
+    def xml_document(filename)
+      File.should be_exist(filename)
+      REXML::Document.new(File.read(filename))
+    end
+
   end
 
 end
