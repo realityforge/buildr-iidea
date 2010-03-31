@@ -1,34 +1,147 @@
 = Improved Intellij IDEA support for buildr
 
-This extension provides better IDEA project file generation support
-than that included in buildr itself.
+This extension provides tasks to generate Intellij IDEA project files by issuing:
 
-== Improvements
+  $ buildr iidea
 
-* VCS: autodetects Subversion or Git and allows manual override via `project.ipr.vcs = 'Name'`
-* More modular design allows for easier customization
-  * Supports replacing or adding entire component sections
-  * Supports changing main & test source lists and the exclude path list for module files
-* Expands the default exclude paths to include all target & report directories
-* Adds clean task for removing all generated files
-* Generates module files for all buildr projects, not just ones that are packaged,
-  while permitting module file generation to be disabled per project using project.no_iml
+This task will generate an .iml file for every project (or subproject) and a .ipr
+that you can directly open for the root project.
+
+The generated project files can be removed by issuing;
+
+  $ buildr iidea:clean
+
+The iidea task generates the project files based on the settings for each project or
+extension specific settings. The main and test source trees are added to the .iml
+file for each project as are the respective resource directories. The target and report
+directories are excluded from the project.
+
+Dependencies come in two forms. Dependencies on other projects and dependencies on
+external jars. Dependencies on other projects are added as module dependencies in the
+.iml while jars are added as regular file dependencies.
+
+== Idea Specific Directives
+
+The extension specific settings of subprojects inherit the parent projects settings
+unless overwritten.
+
+=== Project file naming
+
+The extension will use the last element of the projects name when generating the .ipr
+and .iml files. i.e. A project named "foo" will generate "foo.iml" and "foo.ipr" while
+a project named "foo:bar" will generate "bar/bar.iml" and no ipr. (The .ipr project
+files are only generated for base project). The name can be modified by setting the
+"ipr.suffix" or "iml.suffix" settins which specifies the suffix appended to the
+filenames. The user can also overide the name completely by setting "ipr.id" or "iml.id".
+
+==== Example: Setting id
+
+  define "foo" do
+    ipr.id = "beep"
+    define "bar" do
+      iml.id = "baz"
+    end
+  end
+
+Will generate:
+
+  beep.ipr
+  foo.iml
+  bar/baz.iml
+
+==== Example: Setting suffix
+
+  define "foo" do
+    ipr.suffix = "-suffix1"
+    iml.suffix = "-suffix2"
+    define "bar"
+  end
+
+Will generate:
+
+  foo-suffix1.ipr
+  foo-suffix2.iml
+  bar/bar-suffix2.iml
+
+=== VCS Integration
+
+The extension will attempt to guess the VCS type of the project by looking for a .svn
+or .git directory in the base projects directory. If either of these are set it will
+configure the component as appropriate. Otherwise the user will need to manually specify
+the project to one of either 'Git' or 'svn' using the ipr.vcs setting.
+
+==== Example
+
+  define "foo" do
+    ipr.vcs = 'Git'
+  end
+
+=== Dependency generation
+
+When file dependencies are inserted into an .iml file absolute paths are used by default.
+The user can override this by setting the "iml.local_repository_env_override" setting.
+If set to nil absolute paths are used. If set to a non-null value the path to the local
+maven repository will be replaced with the specified environment variable.
+
+==== Example: Setting local_repository_env_override
+
+  define "foo" do
+    iml.local_repository_env_override = "MAVEN_REPOSITORY"
+    compile.with 'group:id:jar:1.0'
+  end
+
+Will generate a dependency with a path like:
+
+  jar://$MAVEN_REPOSITORY$/group/id/1.0/id-1.0.jar!/
+
+rather than the default
+
+  jar:///home/peter/.m2/repository/group/id/1.0/id-1.0.jar!/
+
+=== Custom Component Sections
+
+If the extension does not provide capability to generate configuration for a particular
+IDEA plugin the user can provide their own configuration data via the "ipr.add_component"
+or "iml.add_component" methods.
+
+==== Example: Adding .ipr specific component
+
+This example changes the compiler configuration for project.
+
+  define "foo" do
+    ipr.add_component("CompilerConfiguration") do |component|
+      component.option :name => 'DEFAULT_COMPILER', :value => 'Javac'
+      component.option :name => 'DEPLOY_AFTER_MAKE', :value => '0'
+      component.resourceExtensions do |xml|
+        xml.entry :name => '.+\.nonexistent'
+      end
+      component.wildcardResourceExtensions do |xml|
+        xml.entry :name => '?*.nonexistent'
+      end
+    end
+  end
+
+==== Example: Adding .iml specific component
+
+This example adds the web facet to a project.
+
+  define "foo" do
+    iml.add_component("FacetManager") do |component|
+      component.facet :type => 'web', :name => 'Web' do |facet|
+        facet.configuration do |conf|
+          conf.descriptors do |desc|
+            desc.deploymentDescriptor :name => 'web.xml',
+              :url => "file://$MODULE_DIR$/src/main/webapp/WEB-INF/web.xml",
+              :optional => "false", :version => "2.4"
+          end
+          conf.webroots do |webroots|
+            webroots.root :url => "file://$MODULE_DIR$/src/main/webapp", :relative => "/"
+          end
+        end
+      end
+    end
+  end
 
 == Compatibility
 
-It's been tested with IDEA 7.x, IDEA 8.x and IDEA 9.x.
-
-== Note on Patches/Pull Requests
-
-* Fork the project.
-* Make your feature addition or bug fix in a topic branch.
-* Add tests for it. This is important so I don't break it in a
-  future version unintentionally.
-* Commit, do not mess with rakefile, version, or history.
-  (if you want to have your own version, that is fine.  Bump version
-  in a commit by itself I can ignore it when I pull)
-* Send me a pull request.
-
-== Copyright
-
-Copyright (c) 2010 Rhett Sutphin. See LICENSE and NOTICE for details.
+It's been tested with IDEA 9.x.
