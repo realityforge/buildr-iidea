@@ -1,6 +1,15 @@
 TODO
 ----
 
+* Add ability to add "group" to module includes. This will be a tristate configuration
+  for module;
+    * true => group is project parent
+    * false => no group  (the default)
+    * string" => group named "string
+  <module fileurl="file://$PROJECT_DIR$/x.iml" filepath="$PROJECT_DIR$/x.iml"/>
+  <module fileurl="file://$PROJECT_DIR$/y/y.iml" filepath="$PROJECT_DIR$/y/y.iml" group="Y" />
+  <module fileurl="file://$PROJECT_DIR$/y/z/z.iml" filepath="$PROJECT_DIR$/y/z/z.iml" group="Y/Z" />
+
 * Document the heck out of the current and expected behaviour 
 
 * Add specs for
