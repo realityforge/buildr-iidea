@@ -10,9 +10,11 @@ TODO
   <module fileurl="file://$PROJECT_DIR$/y/y.iml" filepath="$PROJECT_DIR$/y/y.iml" group="Y" />
   <module fileurl="file://$PROJECT_DIR$/y/z/z.iml" filepath="$PROJECT_DIR$/y/z/z.iml" group="Y/Z" />
 
-* Document the heck out of the current and expected behaviour 
+* add a task that downloads the corresponding source deps for any jar dependency. If present
+  set them sources dependency into the SOURCES section of module dependency. Do the same for
+  javadocs.
 
-* Add specs for
+* Add documentation and specs for
   - template (for module and project)
   - using existing file (for module and project)
 
@@ -22,26 +24,26 @@ TODO
 * Support :base_dir when defining projects ala define('subproject', :base_dir => 'boo')
 
 * Make the compile dependencies exported and the test dependencies not exported.
-Currently all dependencies are exported.
+  Currently all dependencies are exported.
 
 * If project includes Scala code then add a Scala facet manager.
 
 * If project generates a war package then generate web facet.
 
 * Fix dependencies through no_iml projects. Useful for wrap OSGi bundles that
-have no dir and thus we probably should not create the module file.
+  have no dir and thus we probably should not create the module file.
 
 * Add the ability for the module and project files to be generated off into a
-different directory hierarchy. i.e. Generate project modules into .idea_project
-in base directory
+  different directory hierarchy. i.e. Generate project modules into .idea_project
+  in base directory
 
 * Generate component elements for "ProjectRootManager", "JavacSettings" and
-"CompilerConfiguration" based on compiler.options in the project file. Allow
-the user to override as appropriate
+  "CompilerConfiguration" based on compiler.options in the project file. Allow
+  the user to override as appropriate
 
 * Minimize initial template. The template file as it currently stands has a lot of uninteresting stuff in
-it. It could be stripped down to a bare bones verison something like the following. (Note some of these
-components will end up being generated during the build)
+  it. It could be stripped down to a bare bones verison something like the following. (Note some of these
+  components will end up being generated during the build)
 
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
