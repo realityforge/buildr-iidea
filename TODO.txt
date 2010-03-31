@@ -19,6 +19,10 @@ TODO
 * Make the compile dependencies exported and the test dependencies not exported.
 Currently all dependencies are exported.
 
+* If project includes Scala code then add a Scala facet manager.
+
+* If project generates a war package then generate web facet.
+
 * Fix dependencies through no_iml projects. Useful for wrap OSGi bundles that
 have no dir and thus we probably should not create the module file.
 
