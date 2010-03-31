@@ -16,6 +16,9 @@ TODO
   - template (for module and project)
   - using existing file (for module and project)
 
+* Determine whether the library is packaged as a gem and if so run tests using buildr gem.
+  See http://rubygems.rubyforge.org/rubygems-update/Gem.html#M000228
+
 * Support :base_dir when defining projects ala define('subproject', :base_dir => 'boo')
 
 * Make the compile dependencies exported and the test dependencies not exported.
