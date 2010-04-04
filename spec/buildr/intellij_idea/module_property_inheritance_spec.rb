@@ -8,7 +8,7 @@ describe "IdeaModule" do
         iml.type = "FOO_MODULE_TYPE"
         define 'bar'
       end
-      task('iidea').invoke
+      invoke_generate_task
     end
 
     it "generates root IML with specified type" do

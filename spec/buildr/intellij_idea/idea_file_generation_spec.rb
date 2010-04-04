@@ -7,7 +7,7 @@ describe "generate task" do
     describe "and default naming" do
       before do
         @foo = define "foo"
-        task('iidea').invoke
+        invoke_generate_task
       end
 
       it "generates a single IPR" do
@@ -39,7 +39,7 @@ describe "generate task" do
         @foo = define "foo" do
           project.no_iml
         end
-        task('iidea').invoke
+        invoke_generate_task
       end
 
       it "generates no IML" do
@@ -62,7 +62,7 @@ describe "generate task" do
             iml.id = "baz"
           end
         end
-        task('iidea').invoke
+        invoke_generate_task
       end
 
       it "generate an IPR in the root directory" do
@@ -91,7 +91,7 @@ describe "generate task" do
           ipr.suffix = '-ipr-suffix'
           iml.suffix = '-iml-suffix'
         end
-        task('iidea').invoke
+        invoke_generate_task
       end
 
       it "generate an IPR in the root directory" do
@@ -117,7 +117,7 @@ describe "generate task" do
       @foo = define "foo" do
         define 'bar'
       end
-      task('iidea').invoke
+      invoke_generate_task
     end
 
     it "creates the subproject directory" do
