@@ -14,7 +14,7 @@ describe "iidea:clean" do
     @foo = define "foo" do
       define "bar"
     end
-    invoke_generate_task
+    invoke_clean_task
   end
 
   it "should remove the ipr file" do

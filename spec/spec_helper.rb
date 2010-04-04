@@ -31,7 +31,11 @@ unless defined?(SpecHelpers)
   module SpecHelpers
 
     def invoke_generate_task
-      task('iidea').invoke
+      task('iidea:generate').invoke
+    end
+
+    def invoke_clean_task
+      task('iidea:clean').invoke
     end
 
     def root_project_filename(project)
