@@ -2,7 +2,7 @@
 
 This extension provides tasks to generate Intellij IDEA project files by issuing:
 
-  $ buildr iidea
+  $ buildr iidea:generate
 
 This task will generate an .iml file for every project (or subproject) and a .ipr
 that you can directly open for the root project.

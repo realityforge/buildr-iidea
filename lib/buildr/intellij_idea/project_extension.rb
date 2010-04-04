@@ -8,19 +8,19 @@ module Buildr
 
       first_time do
         desc "Generate Intellij IDEA artifacts for all projects"
-        Project.local_task "iidea" => "artifacts"
+        Project.local_task "iidea:generate" => "artifacts"
 
         desc "Delete the generated Intellij IDEA artifacts"
         Project.local_task "iidea:clean"
       end
 
       before_define do |project|
-        project.recursive_task("iidea")
+        project.recursive_task("iidea:generate")
         project.recursive_task("iidea:clean")
       end
 
       after_define do |project|
-        iidea = project.task("iidea")
+        iidea = project.task("iidea:generate")
 
         files = [
             (project.iml if project.iml?),
