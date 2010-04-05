@@ -34,7 +34,7 @@ module Buildr
         [
             lambda { modules_component },
             vcs_component
-        ].compact
+        ]
       end
 
       def modules_component

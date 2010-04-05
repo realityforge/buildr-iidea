@@ -44,7 +44,7 @@ module Buildr
       end
 
       def components
-        @components ||= self.default_components
+        @components ||= self.default_components.compact
       end
 
       def load_document(filename)
