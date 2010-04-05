@@ -18,7 +18,7 @@ module Buildr
       def detect_vcs
         if File.directory?(buildr_project._('.svn'))
           "svn"
-        elsif File.directory?(buildr_project._('.git')) # TODO: this might be in a parent directory
+        elsif File.directory?(buildr_project._('.git'))
           "Git"
         end
       end
