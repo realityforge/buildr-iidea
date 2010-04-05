@@ -14,11 +14,11 @@ settings of each project and extension specific settings.
   spec.platform       = RUBY_PLATFORM[/java/]
   
   spec.files          = Dir['{lib,spec}/**/*', '*.gemspec'] +
-                        ['LICENSE', 'NOTICE', 'CHANGELOG', 'README.rdoc', 'Rakefile']
+                        ['LICENSE', 'NOTICE', 'README.rdoc', 'Rakefile']
   spec.require_paths  = 'lib'
 
   spec.has_rdoc         = true
-  spec.extra_rdoc_files = 'README.rdoc', 'CHANGELOG', 'LICENSE', 'NOTICE'
+  spec.extra_rdoc_files = 'README.rdoc', 'LICENSE', 'NOTICE'
   spec.rdoc_options     = '--title', "#{spec.name} #{spec.version}", '--main', 'README.rdoc'
 
   spec.add_dependency 'buildr',           '1.4.0'
