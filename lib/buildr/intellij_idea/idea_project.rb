@@ -6,7 +6,6 @@ module Buildr
       def initialize(buildr_project)
         @buildr_project = buildr_project
         @vcs = detect_vcs
-        self.template = File.join(File.dirname(__FILE__), 'iidea.ipr.template')
       end
 
       protected
