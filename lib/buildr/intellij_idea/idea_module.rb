@@ -164,8 +164,8 @@ module Buildr
               xml.CLASSES do
                 xml.root :url => path
               end
-              xml.JAVADOC # TODO
-              xml.SOURCES # TODO
+              xml.JAVADOC
+              xml.SOURCES
             end
           end
         end
