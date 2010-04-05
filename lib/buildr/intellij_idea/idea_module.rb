@@ -89,32 +89,35 @@ module Buildr
       def module_root_component
         m2repo = Buildr::Repositories.instance.local
 
-        # Note: Use the test classpath since IDEA compiles both "main" and "test" classes using the same classpath
-        deps = self.test_dependencies
-        # Convert classpath elements into applicable Project objects
-        deps.collect! { |path| Buildr.projects.detect { |prj| prj.packages.detect { |pkg| pkg.to_s == path } } || path }
-        # project_libs: artifacts created by other projects
-        project_libs, others = deps.partition { |path| path.is_a?(Project) }
-        # Separate artifacts from Maven2 repository
-        m2_libs, others = others.partition { |path| path.to_s.index(m2repo) == 0 }
-
         create_component("NewModuleRootManager", "inherit-compiler-output" => "false") do |xml|
           generate_compile_output(xml)
           generate_content(xml)
-          generate_order_entries(project_libs, xml)
+          generate_initial_order_entries(xml)
 
-          ext_libs = m2_libs.map do |path|
-            entry_path = path.to_s
-            unless self.local_repository_env_override.nil?
-              entry_path = entry_path.sub(m2repo, "$#{self.local_repository_env_override}$")
+          # Note: Use the test classpath since IDEA compiles both "main" and "test" classes using the same classpath
+          self.test_dependencies.each do |dependency_path|
+            export = self.main_dependencies.include?(dependency_path)
+            project_for_dependency = Buildr.projects.detect do |project|
+              project.packages.detect { |pkg| pkg.to_s == dependency_path }
             end
-            "jar://#{entry_path}!/"
-          end
-          self.resources.each do |resource|
-            ext_libs << "#{MODULE_DIR_URL}/#{relative(resource.to_s)}"
+            if project_for_dependency
+              if project_for_dependency.iml?
+                generate_project_dependency( xml, project_for_dependency.iml.name, export )
+              end
+              next
+            elsif dependency_path.to_s.index(m2repo) == 0
+              entry_path = dependency_path
+              unless self.local_repository_env_override.nil?
+                entry_path = entry_path.sub(m2repo, "$#{self.local_repository_env_override}$")
+              end
+              generate_module_lib(xml, "jar://#{entry_path}!/", export )
+            end
           end
 
-          generate_module_libs(xml, ext_libs)
+          self.resources.each do |resource|
+            generate_module_lib(xml, "#{MODULE_DIR_URL}/#{relative(resource.to_s)}", true)
+          end
+
           xml.orderEntryProperties
         end
       end
@@ -148,26 +151,27 @@ module Buildr
         end
       end
 
-      def generate_order_entries(project_libs, xml)
+      def generate_initial_order_entries(xml)
         xml.orderEntry :type => "sourceFolder", :forTests => "false"
         xml.orderEntry :type => "inheritedJdk"
-
-        # Classpath elements from other projects
-        project_libs.uniq.select { |p| p.iml? }.collect { |p| p.iml.name }.sort.each do |other_project|
-          xml.orderEntry :type => 'module', "module-name" => other_project, :exported => ""
-        end
       end
 
-      def generate_module_libs(xml, ext_libs)
-        ext_libs.each do |path|
-          xml.orderEntry :type => "module-library", :exported => "" do
-            xml.library do
-              xml.CLASSES do
-                xml.root :url => path
-              end
-              xml.JAVADOC
-              xml.SOURCES
+      def generate_project_dependency(xml, other_project, export = true)
+        attribs = {:type => 'module', "module-name" => other_project}
+        attribs[:exported] = '' if export
+        xml.orderEntry attribs
+      end
+
+      def generate_module_lib(xml, path, export)
+        attribs = {:type => 'module-library'}
+        attribs[:exported] = '' if export
+        xml.orderEntry attribs do
+          xml.library do
+            xml.CLASSES do
+              xml.root :url => path
             end
+            xml.JAVADOC
+            xml.SOURCES
           end
         end
       end

@@ -20,7 +20,8 @@ component configurations.
 
 Dependencies come in two forms. Dependencies on other projects and dependencies on
 external jars. Dependencies on other projects are added as module dependencies in the
-.iml while jars are added as regular file dependencies.
+.iml while jars are added as regular file dependencies. Dependencies are exported from
+the .iml file if they are compile dependencies.
 
 == Idea Specific Directives
 

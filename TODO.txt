@@ -13,9 +13,6 @@ TODO
 
 * Support :base_dir when defining projects ala define('subproject', :base_dir => 'boo')
 
-* Make the compile dependencies exported and the test dependencies not exported.
-  Currently all dependencies are exported.
-
 * If project includes Scala code then add a Scala facet manager.
 
 * If project generates a war package then generate web facet.

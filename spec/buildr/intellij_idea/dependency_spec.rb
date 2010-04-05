@@ -33,8 +33,7 @@ describe "iidea:generate" do
       end
 
       it "generates one non-exported 'module-library' orderEntry in IML" do
-        pending
-        root_module_xml(@foo).should have_nodes("#{ORDER_ENTRY_XPATH}[@type='module-library', @exported='']", 0)
+        root_module_xml(@foo).should have_nodes("#{ORDER_ENTRY_XPATH}[@type='module-library' and @exported]", 0)
         root_module_xml(@foo).should have_nodes("#{ORDER_ENTRY_XPATH}[@type='module-library']", 1)
       end
     end
