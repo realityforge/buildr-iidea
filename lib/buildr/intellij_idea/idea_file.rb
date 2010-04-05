@@ -37,7 +37,7 @@ module Buildr
 
       def create_component(name, attrs = {})
         target = StringIO.new
-        Builder::XmlMarkup.new(:target => target).component(attrs.merge({ :name => name })) do |xml|
+        Builder::XmlMarkup.new(:target => target, :indent => 2).component(attrs.merge({ :name => name })) do |xml|
           yield xml if block_given?
         end
         REXML::Document.new(target.string).root
