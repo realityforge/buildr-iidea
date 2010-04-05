@@ -1,6 +1,6 @@
 Gem::Specification.new do |spec|
   spec.name           = 'buildr-iidea'
-  spec.version        = `git describe`.strip
+  spec.version        = `git describe`.strip.split('-').first
   spec.author         = 'Rhett Sutphin'
   spec.email          = "rhett@detailedbalance.net"
   spec.homepage       = "http://github.com/rsutphin/buildr-iidea"
