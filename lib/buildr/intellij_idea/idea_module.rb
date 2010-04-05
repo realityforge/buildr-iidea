@@ -8,6 +8,7 @@ module Buildr
       attr_writer :buildr_project
       attr_accessor :type
       attr_accessor :local_repository_env_override
+      attr_accessor :group
 
       def initialize
         @type = DEFAULT_TYPE

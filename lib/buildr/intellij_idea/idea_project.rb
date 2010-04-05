@@ -38,11 +38,16 @@ module Buildr
       def modules_component
         create_component("ProjectModuleManager") do |xml|
           xml.modules do
-            buildr_project.projects.select { |subp| subp.iml? }.each do |subp|
-              module_path = subp.base_dir.gsub(/^#{buildr_project.base_dir}\//, '')
-              path = "#{module_path}/#{subp.iml.name}.iml"
-              xml.module :fileurl => "file://$PROJECT_DIR$/#{path}",
-                         :filepath => "$PROJECT_DIR$/#{path}"
+            buildr_project.projects.select { |subp| subp.iml? }.each do |subproject|
+              module_path = subproject.base_dir.gsub(/^#{buildr_project.base_dir}\//, '')
+              path = "#{module_path}/#{subproject.iml.name}.iml"
+              attribs = { :fileurl => "file://$PROJECT_DIR$/#{path}", :filepath => "$PROJECT_DIR$/#{path}" }
+              if subproject.group == true
+                attribs[:group] = subproject.parent.name.gsub(':', '/')
+              elsif !subproject.group.nil?
+                attribs[:group] = subproject.group.to_s
+              end
+              xml.module attribs
             end
             if buildr_project.iml?
               xml.module :fileurl => "file://$PROJECT_DIR$/#{buildr_project.iml.name}.iml",

@@ -161,6 +161,32 @@ certain configuration options (i.e. project specific code style).
     iml.template = 'module.ipr.template'
   end
 
+=== Groups
+
+IDEA provides the facility to organise modules into groups. By default the extension does not
+do this but it can be enabled by iml.group setting. If that setting is set to true then the
+.iml file will be placed in a group based on the parent projects name. If the setting is a string
+then that is used as the name of the group.
+
+==== Example
+
+  define "foo" do
+    iml.group = true
+    define 'bar' do
+      define 'baz'
+    end
+    define 'rab' do
+      iml.group = "MyGroup"
+    end
+  end
+
+Will place the generated imls in the following groups:
+
+  foo.iml                => ''
+  bar/bar.iml            => 'foo'
+  bar/baz/baz.iml        => 'foo/bar'
+  rab/rab.iml            => 'MyGroup'
+
 == Compatibility
 
 It's been tested with IDEA 9.x.
