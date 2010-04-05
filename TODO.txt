@@ -1,6 +1,9 @@
 TODO
 ----
 
+* add ability to an arbitrary list of facets to IdeaModule which will synthesize correct
+  <component> section.
+
 * Add the ability to add in arbitrary modules to .ipr file 
 
 * Add ability to add "group" to module includes. This will be a tristate configuration
