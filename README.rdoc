@@ -11,7 +11,7 @@ The generated project files can be removed by issuing;
 
   $ buildr iidea:clean
 
-The iidea task generates the project files based on the settings for each project or
+The iidea task generates the project files based on the settings of each project and
 extension specific settings. The main and test source trees are added to the .iml
 file for each project as are the respective resource directories. The target and report
 directories are excluded from the project. If the project files exist on the filesystem
