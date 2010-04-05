@@ -21,6 +21,5 @@ Better defaults and more configurable than the built-in idea7x task.
   spec.extra_rdoc_files = 'README.rdoc', 'CHANGELOG', 'LICENSE', 'NOTICE'
   spec.rdoc_options     = '--title', "#{spec.name} #{spec.version}", '--main', 'README.rdoc'
 
-  #TODO: Can this be made into a range of version compatibility?
   spec.add_dependency 'buildr',           '1.4.0'
 end
