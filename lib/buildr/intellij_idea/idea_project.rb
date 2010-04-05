@@ -44,9 +44,9 @@ module Buildr
               module_path = subproject.base_dir.gsub(/^#{buildr_project.base_dir}\//, '')
               path = "#{module_path}/#{subproject.iml.name}.iml"
               attribs = { :fileurl => "file://$PROJECT_DIR$/#{path}", :filepath => "$PROJECT_DIR$/#{path}" }
-              if subproject.group == true
+              if subproject.iml.group == true
                 attribs[:group] = subproject.parent.name.gsub(':', '/')
-              elsif !subproject.group.nil?
+              elsif !subproject.iml.group.nil?
                 attribs[:group] = subproject.group.to_s
               end
               xml.module attribs
