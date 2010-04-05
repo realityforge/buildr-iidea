@@ -101,6 +101,33 @@ rather than the default
 
   jar:///home/peter/.m2/repository/group/id/1.0/id-1.0.jar!/
 
+=== Module Facets
+
+Facets are IDEAs mechanism for adding support for languages, tools and frameworks other than
+core java. A facet can be added to a project so that it can be deployed as a web application
+or a hibernate application. A facet can also be used t provide support for other languages
+such as ruby and scala. The extension makes it possible to generate .iml with the appropriate
+facets via the "iml.add_facet" method. 
+
+==== Example
+
+This example adds the web facet to a project.
+
+  define "foo" do
+    iml.add_facet("Web","web") do |facet|
+      facet.configuration do |conf|
+        conf.descriptors do |desc|
+          desc.deploymentDescriptor :name => 'web.xml',
+            :url => "file://$MODULE_DIR$/src/main/webapp/WEB-INF/web.xml",
+            :optional => "false", :version => "2.4"
+        end
+        conf.webroots do |webroots|
+          webroots.root :url => "file://$MODULE_DIR$/src/main/webapp", :relative => "/"
+        end
+      end
+    end
+  end
+
 === Custom Component Sections
 
 If the extension does not provide capability to generate configuration for a particular
@@ -126,7 +153,8 @@ This example changes the compiler configuration for project.
 
 ==== Example: Adding .iml specific component
 
-This example adds the web facet to a project.
+This example adds the web facet to a project. Note: This overrides the facets defined by
+the "iml.add_facet" method.
 
   define "foo" do
     iml.add_component("FacetManager") do |component|

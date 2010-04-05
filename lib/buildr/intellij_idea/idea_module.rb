@@ -9,14 +9,17 @@ module Buildr
       attr_accessor :type
       attr_accessor :local_repository_env_override
       attr_accessor :group
+      attr_reader :facets
 
       def initialize
         @type = DEFAULT_TYPE
         @local_repository_env_override = DEFAULT_LOCAL_REPOSITORY_ENV_OVERRIDE
+        @facets = []
       end
 
       def buildr_project=(buildr_project)
         @id = nil
+        @facets = []
         @buildr_project = buildr_project
       end
 
@@ -72,6 +75,14 @@ module Buildr
         buildr_project.path_to
       end
 
+      def add_facet(name, type)
+        target = StringIO.new
+        Builder::XmlMarkup.new(:target => target, :indent => 2).facet(:name => name, :type => type) do |xml|
+          yield xml if block_given?
+        end
+        self.facets << REXML::Document.new(target.string).root
+      end
+
       protected
 
       def base_document
@@ -82,8 +93,18 @@ module Buildr
 
       def default_components
         [
-            lambda { module_root_component }
+            lambda { module_root_component },
+            lambda { facet_component }
         ]
+      end
+
+      def facet_component
+        return nil if self.facets.empty?
+        fm = self.create_component("FacetManager")
+        self.facets.each do |facet|
+          fm.add_element facet
+        end
+        fm
       end
 
       def module_root_component

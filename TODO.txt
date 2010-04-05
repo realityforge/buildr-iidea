@@ -1,9 +1,6 @@
 TODO
 ----
 
-* add ability to an arbitrary list of facets to IdeaModule which will synthesize correct
-  <component> section.
-
 * add a task that downloads the corresponding source deps for any jar dependency. If present
   set them sources dependency into the SOURCES section of module dependency. Do the same for
   javadocs.
