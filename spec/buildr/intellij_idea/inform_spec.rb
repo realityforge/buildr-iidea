@@ -1,6 +1,6 @@
 require File.expand_path('../../../spec_helper', __FILE__)
 
-describe "generate task" do
+describe "iidea:generate" do
   describe "with a single project definition" do
     before do
       @foo = define "foo"

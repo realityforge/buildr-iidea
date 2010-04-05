@@ -4,7 +4,7 @@ ORDER_ENTRY_XPATH = "/module/component[@name='NewModuleRootManager']/orderEntry"
 DEPENDENCY_NAME = 'group:id:jar:1.0'
 DEPENDENCY2_NAME = 'group:id2:jar:1.0'
 
-describe "generate task" do
+describe "iidea:generate" do
 
   describe "with a single dependency" do
     before do
