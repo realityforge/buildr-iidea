@@ -1,7 +1,5 @@
 require File.expand_path('../../../spec_helper', __FILE__)
 
-MODULE_ENTRY_XPATH = "/project/component[@name='ProjectModuleManager']/modules/module"
-
 describe "iidea:generate" do
   describe "with a single project definition" do
     describe "and default naming" do
@@ -30,7 +28,7 @@ describe "iidea:generate" do
         File.should be_exist(@foo._("foo.ipr"))
         doc = xml_document(@foo._("foo.ipr"))
         module_ref = "$PROJECT_DIR$/foo.iml"
-        doc.should have_nodes("#{MODULE_ENTRY_XPATH}[@fileurl='file://#{module_ref}', @filepath='#{module_ref}']", 1)
+        doc.should have_nodes("#{xpath_to_module}[@fileurl='file://#{module_ref}', @filepath='#{module_ref}']", 1)
       end
     end
 
@@ -49,7 +47,7 @@ describe "iidea:generate" do
       it "generate an IPR with no references" do
         File.should be_exist(@foo._("foo.ipr"))
         doc = xml_document(@foo._("foo.ipr"))
-        doc.should have_nodes("#{MODULE_ENTRY_XPATH}", 0)
+        doc.should have_nodes("#{xpath_to_module}", 0)
       end
     end
 
@@ -81,7 +79,7 @@ describe "iidea:generate" do
         File.should be_exist(@foo._("fooble.ipr"))
         doc = xml_document(@foo._("fooble.ipr"))
         module_ref = "$PROJECT_DIR$/feap.iml"
-        doc.should have_nodes("#{MODULE_ENTRY_XPATH}[@fileurl='file://#{module_ref}', @filepath='#{module_ref}']", 1)
+        doc.should have_nodes("#{xpath_to_module}[@fileurl='file://#{module_ref}', @filepath='#{module_ref}']", 1)
       end
     end
 
@@ -105,9 +103,9 @@ describe "iidea:generate" do
       it "generate an IPR with the reference to correct module file" do
         File.should be_exist(@foo._("foo-ipr-suffix.ipr"))
         doc = xml_document(@foo._("foo-ipr-suffix.ipr"))
-        doc.should have_nodes("#{MODULE_ENTRY_XPATH}", 1)
+        doc.should have_nodes("#{xpath_to_module}", 1)
         module_ref = "$PROJECT_DIR$/foo-iml-suffix.iml"
-        doc.should have_nodes("#{MODULE_ENTRY_XPATH}[@fileurl='file://#{module_ref}', @filepath='#{module_ref}']", 1)
+        doc.should have_nodes("#{xpath_to_module}[@fileurl='file://#{module_ref}', @filepath='#{module_ref}']", 1)
       end
     end
   end
@@ -131,11 +129,11 @@ describe "iidea:generate" do
     it "generate an IPR with the reference to correct module file" do
       File.should be_exist(@foo._("foo.ipr"))
       doc = xml_document(@foo._("foo.ipr"))
-      doc.should have_nodes("#{MODULE_ENTRY_XPATH}", 2)
+      doc.should have_nodes("#{xpath_to_module}", 2)
       module_ref = "$PROJECT_DIR$/foo.iml"
-      doc.should have_nodes("#{MODULE_ENTRY_XPATH}[@fileurl='file://#{module_ref}', @filepath='#{module_ref}']", 1)
+      doc.should have_nodes("#{xpath_to_module}[@fileurl='file://#{module_ref}', @filepath='#{module_ref}']", 1)
       module_ref = "$PROJECT_DIR$/bar/bar.iml"
-      doc.should have_nodes("#{MODULE_ENTRY_XPATH}[@fileurl='file://#{module_ref}', @filepath='#{module_ref}']", 1)
+      doc.should have_nodes("#{xpath_to_module}[@fileurl='file://#{module_ref}', @filepath='#{module_ref}']", 1)
     end
   end
 end

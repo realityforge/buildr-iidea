@@ -66,6 +66,10 @@ unless defined?(SpecHelpers)
       REXML::Document.new(File.read(filename))
     end
 
+    def xpath_to_module
+      "/project/component[@name='ProjectModuleManager']/modules/module"
+    end
+
   end
 
 end
