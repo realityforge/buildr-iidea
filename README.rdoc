@@ -240,11 +240,6 @@ It's been tested with IDEA 9.x.
 The following is a list of feature requests for future versions of the extension. Feel free to
 jump in and supply a patch if you have gone ahead and implemented the feature.
 
-=== Generate Compiler settins
-
-Generate component elements for "ProjectRootManager", "JavacSettings" and "CompilerConfiguration"
-based on compiler.options in the project file. Allow the user to override as appropriate.
-
 === :base_dir support
 
 The project files generated should support generation of idea project files for projects that

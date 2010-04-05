@@ -91,6 +91,10 @@ module Buildr
         REXML::Document.new(target.string)
       end
 
+      def initial_components
+        []
+      end
+
       def default_components
         [
             lambda { module_root_component },

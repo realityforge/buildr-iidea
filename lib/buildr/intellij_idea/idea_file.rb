@@ -52,19 +52,28 @@ module Buildr
       end
 
       def document
-        doc = (File.exist?(self.filename)) ? load_document(self.filename) : base_document 
+        if File.exist?(self.filename)
+          doc = load_document(self.filename)
+        else
+          doc = base_document
+          inject_components( doc, self.initial_components )
+        end
         if self.template
           template_doc = load_document(self.template)
           REXML::XPath.each(template_doc, "//component") do |element|
             inject_component(doc, element)
           end
         end
-        self.components.each do |comp_elt|
-          # execute deferred components
-          comp_elt = comp_elt.call if Proc === comp_elt
-          inject_component(doc, comp_elt) if comp_elt
-        end
+        inject_components( doc, self.components )
         doc
+      end
+
+      def inject_components(doc, components)
+        components.each do |component|
+          # execute deferred components
+          component = component.call if Proc === component
+          inject_component(doc, component) if component
+        end
       end
 
       # replace overridden component (if any) with specified component

@@ -3,6 +3,7 @@ module Buildr
     class IdeaProject < IdeaFile
       attr_accessor :vcs
       attr_accessor :extra_modules
+      attr_writer :jdk_version
 
       def initialize(buildr_project)
         @buildr_project = buildr_project
@@ -10,6 +11,10 @@ module Buildr
         @extra_modules = []
       end
 
+      def jdk_version
+        @jdk_version ||= buildr_project.compile.options.source || "1.6"
+      end
+      
       protected
 
       def extension
@@ -35,6 +40,24 @@ module Buildr
             lambda { modules_component },
             vcs_component
         ]
+      end
+
+      def initial_components
+        [
+            lambda { project_root_manager_component }
+        ]
+      end
+
+      def project_root_manager_component
+        attribs = {"version" => "2",
+                   "assert-keyword" => "true",
+                   "jdk-15" => "true",
+                   "project-jdk-name" => self.jdk_version,
+                   "project-jdk-type" => "JavaSDK",
+                   "languageLevel" => "JDK_#{self.jdk_version.gsub('.','_')}" }
+        create_component("ProjectRootManager",attribs) do |xml|
+          xml.output("url" => "file://$PROJECT_DIR$/out")
+        end
       end
 
       def modules_component
