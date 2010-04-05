@@ -2,10 +2,12 @@ module Buildr
   module IntellijIdea
     class IdeaProject < IdeaFile
       attr_accessor :vcs
+      attr_accessor :extra_modules
 
       def initialize(buildr_project)
         @buildr_project = buildr_project
         @vcs = detect_vcs
+        @extra_modules = []
       end
 
       protected
@@ -48,6 +50,10 @@ module Buildr
                 attribs[:group] = subproject.group.to_s
               end
               xml.module attribs
+            end
+            self.extra_modules.each do |iml_file|
+              xml.module :fileurl => "file://$PROJECT_DIR$/#{iml_file}",
+                         :filepath => "$PROJECT_DIR$/#{iml_file}"
             end
             if buildr_project.iml?
               xml.module :fileurl => "file://$PROJECT_DIR$/#{buildr_project.iml.name}.iml",

@@ -180,12 +180,26 @@ then that is used as the name of the group.
     end
   end
 
-Will place the generated imls in the following groups:
+Will place the generated .imls in the following groups:
 
   foo.iml                => ''
   bar/bar.iml            => 'foo'
   bar/baz/baz.iml        => 'foo/bar'
   rab/rab.iml            => 'MyGroup'
+
+=== Add Extra .iml files to .ipr
+
+The 'ipr.extra_modules' setting makes it possible to add extra modules to the generated iml file.
+The setting is an array of filenames relative to the base project directory.
+
+==== Example
+
+  define "foo" do
+    ipr.extra_modules << 'other.iml'
+    ipr.extra_modules << 'other_other.iml'
+  end
+
+Will add the 'other.iml' and 'other_other.iml' files to the .ipr project files.
 
 == Compatibility
 
