@@ -1,4 +1,4 @@
-= Improved Intellij IDEA support for buildr
+= Intellij IDEA support for buildr
 
 This extension provides tasks to generate Intellij IDEA project files by issuing:
 
