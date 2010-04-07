@@ -21,4 +21,6 @@ Rake::RDocTask.new :rdoc do |rdoc|
   rdoc.rdoc_files.include gem_spec.extra_rdoc_files
 end
 
-Rake::GemPackageTask.new(gem_spec)
+Rake::GemPackageTask.new(gem_spec) do |pkg|
+  pkg.need_zip = true
+end
