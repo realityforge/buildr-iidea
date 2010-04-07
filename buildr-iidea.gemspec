@@ -18,4 +18,6 @@ settings of each project and extension specific settings.
   spec.has_rdoc         = true
   spec.extra_rdoc_files = 'README.rdoc', 'LICENSE', 'NOTICE'
   spec.rdoc_options     = '--title', "#{spec.name} #{spec.version}", '--main', 'README.rdoc'
+
+  spec.post_install_message = "Thanks for installing the Intellij IDEA extension for Buildr"
 end
