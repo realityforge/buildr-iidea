@@ -15,7 +15,7 @@ settings of each project and extension specific settings.
   
   spec.files          = Dir['{lib,spec}/**/*', '*.gemspec'] +
                         ['LICENSE', 'NOTICE', 'README.rdoc', 'Rakefile']
-  spec.require_paths  = 'lib'
+  spec.require_paths  = ['lib']
 
   spec.has_rdoc         = true
   spec.extra_rdoc_files = 'README.rdoc', 'LICENSE', 'NOTICE'
