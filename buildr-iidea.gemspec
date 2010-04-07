@@ -11,8 +11,6 @@ project files. The iidea task generates the project files based on the
 settings of each project and extension specific settings. 
   TEXT
 
-  spec.platform       = RUBY_PLATFORM[/java/]
-  
   spec.files          = Dir['{lib,spec}/**/*', '*.gemspec'] +
                         ['LICENSE', 'NOTICE', 'README.rdoc', 'Rakefile']
   spec.require_paths  = ['lib']
