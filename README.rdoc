@@ -23,6 +23,23 @@ external jars. Dependencies on other projects are added as module dependencies i
 .iml while jars are added as regular file dependencies. Dependencies are exported from
 the .iml file if they are compile dependencies.
 
+== Installation
+
+The extension is packaged as a gem named "buildr-iidea", consult the ruby gems installation
+steps but typically it is either
+
+  sudo gem install buildr-iidea
+
+for MRI ruby or
+
+  jgem install buildr-iidea
+
+for jruby.
+
+The user then needs to add the following require into the build file:
+
+  require 'buildr_iidea'
+
 == Idea Specific Directives
 
 The extension specific settings of subprojects inherit the parent projects settings
