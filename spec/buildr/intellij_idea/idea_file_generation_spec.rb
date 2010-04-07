@@ -136,4 +136,42 @@ describe "iidea:generate" do
       doc.should have_nodes("#{xpath_to_module}[@fileurl='file://#{module_ref}', @filepath='#{module_ref}']", 1)
     end
   end
+
+  describe "with base_dir specified" do
+    before do
+      @foo = define "foo" do
+        define('bar', :base_dir => 'fe') do
+          define('baz', :base_dir => 'fi') do
+            define('foe')
+          end
+          define('fum')
+        end
+      end
+      invoke_generate_task
+    end
+
+    it "generates a subproject IML in the specified directory" do
+      File.should be_exist(@foo._("fe/bar.iml"))
+    end
+
+    it "generates a sub-subproject IML in the specified directory" do
+      File.should be_exist(@foo._("fi/baz.iml"))
+    end
+
+    it "generates a sub-sub-subproject IML that inherits the specified directory" do
+      File.should be_exist(@foo._("fi/foe/foe.iml"))
+    end
+
+    it "generates a sub-subproject IML that inherits the specified directory" do
+      File.should be_exist(@foo._("fe/fum/fum.iml"))
+    end
+
+    it "generate an IPR with the references to correct module files" do
+      doc = xml_document(@foo._("foo.ipr"))
+      doc.should have_nodes("#{xpath_to_module}", 5)
+      ["foo.iml", "fe/bar.iml", "fi/baz.iml", "fi/foe/foe.iml","fe/fum/fum.iml"].each do |module_ref|
+        doc.should have_nodes("#{xpath_to_module}[@fileurl='file://$PROJECT_DIR$/#{module_ref}', @filepath='$PROJECT_DIR$/#{module_ref}']", 1)
+      end
+    end
+  end
 end
