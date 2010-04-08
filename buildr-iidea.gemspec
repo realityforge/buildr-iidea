@@ -3,7 +3,7 @@ Gem::Specification.new do |spec|
   spec.version        = `git describe`.strip.split('-').first
   spec.authors        = ['Rhett Sutphin', 'Peter Donald']
   spec.email          = ["rhett@detailedbalance.net","peter@realityforge.org"]
-  spec.homepage       = "http://github.com/rockninja/buildr-iidea"
+  spec.homepage       = "http://github.com/realityforge/buildr-iidea"
   spec.summary        = "Buildr tasks to generate Intellij IDEA project files"
   spec.description    = <<-TEXT
 This is a buildr extension that provides tasks to generate Intellij IDEA
