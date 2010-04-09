@@ -20,6 +20,13 @@ module Buildr
       end
 
       after_define do |project|
+        # Remove the old idea tasks if they exist. Either could depending on the names
+        # selected for the IDEA project files by iidea extension and thus have been removed.
+        task_list = Rake.application.instance_variable_get('@tasks')
+        task_list.delete("idea")
+        task_list.delete("idea7x")
+        task_list.delete("idea7x:clean")
+
         iidea = project.task("iidea:generate")
 
         files = [
