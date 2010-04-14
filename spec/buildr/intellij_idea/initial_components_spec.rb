@@ -15,6 +15,11 @@ describe "iidea:generate" do
       xml_document(@foo._("foo.ipr")).
           should have_xpath("/project/component[@name='ProjectRootManager' and @project-jdk-name = '1.5' and @languageLevel = 'JDK_1_5']")
     end
+
+    it "generates a ProjectDetails component with the projectName option set" do
+      xml_document(@foo._("foo.ipr")).
+          should have_xpath("/project/component[@name='ProjectDetails']/option[@name = 'projectName' and @value = 'foo']")
+    end
   end
 
   describe "with compile.options.source = '1.6'" do

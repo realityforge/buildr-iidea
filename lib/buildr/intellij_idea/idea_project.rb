@@ -44,7 +44,8 @@ module Buildr
 
       def initial_components
         [
-            lambda { project_root_manager_component }
+            lambda { project_root_manager_component },
+            lambda { project_details_component }
         ]
       end
 
@@ -57,6 +58,12 @@ module Buildr
                    "languageLevel" => "JDK_#{self.jdk_version.gsub('.','_')}" }
         create_component("ProjectRootManager",attribs) do |xml|
           xml.output("url" => "file://$PROJECT_DIR$/out")
+        end
+      end
+
+      def project_details_component
+        create_component("ProjectDetails") do |xml|
+          xml.option("name" => "projectName", "value" => self.name )
         end
       end
 
