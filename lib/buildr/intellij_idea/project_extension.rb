@@ -12,6 +12,13 @@ module Buildr
 
         desc "Delete the generated Intellij IDEA artifacts"
         Project.local_task "iidea:clean"
+        
+        # Remove the old idea tasks if they exist. Either could depending on the names
+        # selected for the IDEA project files by iidea extension and thus have been removed.
+        task_list = Rake.application.instance_variable_get('@tasks')
+        task_list.delete("idea")
+        task_list.delete("idea7x")
+        task_list.delete("idea7x:clean")
       end
 
       before_define do |project|
@@ -20,13 +27,6 @@ module Buildr
       end
 
       after_define do |project|
-        # Remove the old idea tasks if they exist. Either could depending on the names
-        # selected for the IDEA project files by iidea extension and thus have been removed.
-        task_list = Rake.application.instance_variable_get('@tasks')
-        task_list.delete("idea")
-        task_list.delete("idea7x")
-        task_list.delete("idea7x:clean")
-
         iidea = project.task("iidea:generate")
 
         files = [
@@ -68,7 +68,7 @@ module Buildr
       end
 
       def ipr?
-        self.parent.nil?
+        !@no_ipr && self.parent.nil?
       end
 
       def iml
@@ -81,6 +81,10 @@ module Buildr
         else
           raise "IML generation is disabled for #{self.name}"
         end
+      end
+
+      def no_ipr
+        @no_ipr = true
       end
 
       def no_iml
