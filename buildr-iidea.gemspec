@@ -12,11 +12,11 @@ settings of each project and extension specific settings.
   TEXT
 
   spec.files          = Dir['{lib,spec}/**/*', '*.gemspec'] +
-                        ['LICENSE', 'NOTICE', 'README.rdoc', 'Rakefile']
+                        ['LICENSE', 'NOTICE', 'README.rdoc', 'CHANGELOG', 'Rakefile']
   spec.require_paths  = ['lib']
 
   spec.has_rdoc         = true
-  spec.extra_rdoc_files = 'README.rdoc', 'LICENSE', 'NOTICE'
+  spec.extra_rdoc_files = 'README.rdoc', 'LICENSE', 'NOTICE', 'CHANGELOG'
   spec.rdoc_options     = '--title', "#{spec.name} #{spec.version}", '--main', 'README.rdoc'
 
   spec.post_install_message = "Thanks for installing the Intellij IDEA extension for Buildr"
