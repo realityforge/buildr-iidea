@@ -51,6 +51,23 @@ describe "iidea:generate" do
       end
     end
 
+    describe "with ipr generation disabled" do
+      before do
+        @foo = define "foo" do
+          project.no_ipr
+        end
+        invoke_generate_task
+      end
+
+      it "generates a single IML" do
+        Dir[@foo._("**/*.iml")].should have(1).entry
+      end
+
+      it "generate no IPR" do
+        File.should_not be_exist(@foo._("foo.ipr"))
+      end
+    end
+
     describe "and id overrides" do
       before do
         @foo = define "foo" do
