@@ -1,1 +1,2 @@
 0.0.4 (Pending)
+* Added: Ability to disable ipr generation using project.no_ipr
