@@ -1,2 +1,3 @@
 0.0.4 (Pending)
 * Added: Ability to disable ipr generation using project.no_ipr
+* Added: Documented the ability to disable the generation of iml files via project.no_iml 

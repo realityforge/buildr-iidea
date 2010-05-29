@@ -89,6 +89,24 @@ Will generate:
   foo-suffix2.iml
   bar/bar-suffix2.iml
 
+=== Disabling project file generation
+
+The extension will not generate an iml file for a project if the "project.no_iml" method
+is invoked. Generation of ipr files can be disabled by invoking the method "project.no_ipr". 
+
+==== Example
+
+  define "foo" do
+    project.no_ipr
+    define "bar" do
+      project.no_iml
+    end
+  end
+
+Will generate:
+
+  foo.iml
+
 === VCS Integration
 
 The extension will attempt to guess the VCS type of the project by looking for a .svn
