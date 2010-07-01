@@ -1,4 +1,7 @@
 0.0.5 (Pending)
+* Changed: The documentation indicated that the iml.local_repository_env_override value
+  defaulted to nil while the code defaulted the value to M2_REPO. The code was changed to
+  match the documentation.
 
 0.0.4 (May 29, 2010)
 * Added: Ability to disable ipr generation using project.no_ipr
