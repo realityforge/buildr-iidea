@@ -2,7 +2,7 @@ module Buildr
   module IntellijIdea
     class IdeaModule < IdeaFile
       DEFAULT_TYPE = "JAVA_MODULE"
-      DEFAULT_LOCAL_REPOSITORY_ENV_OVERRIDE = "M2_REPO"
+      DEFAULT_LOCAL_REPOSITORY_ENV_OVERRIDE = nil
       MODULE_DIR_URL = "file://$MODULE_DIR$"
 
       attr_writer :buildr_project
