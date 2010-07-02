@@ -5,7 +5,6 @@ module Buildr
       DEFAULT_LOCAL_REPOSITORY_ENV_OVERRIDE = nil
       MODULE_DIR_URL = "file://$MODULE_DIR$"
 
-      attr_writer :buildr_project
       attr_accessor :type
       attr_accessor :local_repository_env_override
       attr_accessor :group
@@ -15,6 +14,7 @@ module Buildr
         @type = DEFAULT_TYPE
         @local_repository_env_override = DEFAULT_LOCAL_REPOSITORY_ENV_OVERRIDE
         @facets = []
+        @skip_content = false
       end
 
       def buildr_project=(buildr_project)
@@ -83,6 +83,14 @@ module Buildr
         self.facets << REXML::Document.new(target.string).root
       end
 
+      def skip_content?
+        !!@skip_content
+      end
+
+      def skip_content!
+        @skip_content = true
+      end
+
       protected
 
       def base_document
@@ -116,7 +124,7 @@ module Buildr
 
         create_component("NewModuleRootManager", "inherit-compiler-output" => "false") do |xml|
           generate_compile_output(xml)
-          generate_content(xml)
+          generate_content(xml) unless skip_content?
           generate_initial_order_entries(xml)
 
           # Note: Use the test classpath since IDEA compiles both "main" and "test" classes using the same classpath

@@ -107,6 +107,19 @@ Will generate:
 
   foo.iml
 
+=== Disabling generation of content section in .iml file
+
+The extension will not generate a content section in an iml file if the "iml.skip_content!" method
+is invoked. This can be useful if a project is just exporting dependencies and has no associated
+source code. This may also be of use in scenarios where the build is repackaging an existing jar with
+more metadata or the project is just a container for other projects. 
+
+==== Example
+
+  define "foo" do
+    iml.skip_content!
+  end
+
 === VCS Integration
 
 The extension will attempt to guess the VCS type of the project by looking for a .svn
