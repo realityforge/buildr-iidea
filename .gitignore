@@ -25,3 +25,6 @@ spec/buildr_dir
 .rakeTasks
 *.ipr
 *.iws
+
+## RVM
+.rvmrc
