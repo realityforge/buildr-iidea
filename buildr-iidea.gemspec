@@ -1,6 +1,8 @@
+require File.expand_path(File.dirname(__FILE__) + '/lib/buildr/intellij_idea/version')
+
 Gem::Specification.new do |spec|
   spec.name           = 'buildr-iidea'
-  spec.version        = `git describe`.strip.split('-').first
+  spec.version        = Buildr::IntellijIdea::Version::STRING
   spec.authors        = ['Rhett Sutphin', 'Peter Donald']
   spec.email          = ["rhett@detailedbalance.net","peter@realityforge.org"]
   spec.homepage       = "http://github.com/realityforge/buildr-iidea"
