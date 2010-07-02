@@ -18,6 +18,7 @@ coverage
 rdoc
 pkg
 .bundle
+spec/buildr_dir
 
 ## IDE files
 *.iml

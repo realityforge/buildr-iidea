@@ -2,10 +2,19 @@ require 'spec'
 require File.expand_path(File.dirname(__FILE__) + '/xpath_matchers.rb')
 
 DEFAULT_BUILDR_DIR=File.expand_path(File.dirname(__FILE__) + '/../../buildr')
-BUILDR_DIR=ENV['BUILDR_DIR'] || DEFAULT_BUILDR_DIR
+BUILDR_DIR =
+  begin
+    if ENV['BUILDR_DIR']
+      ENV['BUILDR_DIR']
+    elsif File.exist?(File.expand_path('../buildr_dir', __FILE__))
+      File.read(File.expand_path('../buildr_dir', __FILE__)).strip
+    else
+      DEFAULT_BUILDR_DIR
+    end
+  end
 
 unless File.exist?("#{BUILDR_DIR}/buildr.gemspec")
-  raise "Unable to find buildr.gemspec in #{BUILDR_DIR == DEFAULT_BUILDR_DIR ? 'guessed' : 'specified'} $BUILD_DIR (#{BUILDR_DIR})"
+  raise "Unable to find buildr.gemspec in #{BUILDR_DIR == DEFAULT_BUILDR_DIR ? 'guessed' : 'specified'} $BUILDR_DIR (#{BUILDR_DIR})"
 end
 
 require 'rubygems'
