@@ -74,7 +74,11 @@ module Buildr
       def iml
         if iml?
           unless @iml
-            @iml = self.parent ? self.parent.iml.clone : IdeaModule.new
+            inheritable_iml_source = self.parent
+            while inheritable_iml_source && !inheritable_iml_source.iml?
+              inheritable_iml_source = inheritable_iml_source.parent;
+            end
+            @iml = inheritable_iml_source ? inheritable_iml_source.iml.clone : IdeaModule.new
             @iml.buildr_project = self
           end
           return @iml

@@ -3,6 +3,7 @@
   defaulted to nil while the code defaulted the value to M2_REPO. The code was changed to
   match the documentation.
 * Added: Ability to disable generation of content section using iml.skip_content!
+* Fixed: A project which is tagged with no_iml may have a child with an IML.
 
 0.0.4 (May 29, 2010)
 * Added: Ability to disable ipr generation using project.no_ipr
