@@ -2,6 +2,7 @@ require File.expand_path('../../../spec_helper', __FILE__)
 
 ORDER_ENTRY_XPATH = "/module/component[@name='NewModuleRootManager']/orderEntry"
 DEPENDENCY_NAME = 'group:id:jar:1.0'
+DEPENDENCY_SOURCES_NAME = 'group:id:jar:sources:1.0'
 DEPENDENCY2_NAME = 'group:id2:jar:1.0'
 
 describe "iidea:generate" do
@@ -20,7 +21,7 @@ describe "iidea:generate" do
       end
 
       it "generates one exported 'module-library' orderEntry in IML" do
-        root_module_xml(@foo).should have_nodes("#{ORDER_ENTRY_XPATH}[@type='module-library', @exported='']", 1)
+        root_module_xml(@foo).should have_nodes("#{ORDER_ENTRY_XPATH}[@type='module-library', @exported='']/library/CLASSES/root", 1)
       end
     end
 
@@ -33,8 +34,22 @@ describe "iidea:generate" do
       end
 
       it "generates one non-exported 'module-library' orderEntry in IML" do
-        root_module_xml(@foo).should have_nodes("#{ORDER_ENTRY_XPATH}[@type='module-library' and @exported]", 0)
-        root_module_xml(@foo).should have_nodes("#{ORDER_ENTRY_XPATH}[@type='module-library']", 1)
+        root_module_xml(@foo).should have_nodes("#{ORDER_ENTRY_XPATH}[@type='module-library' and @exported]/library/CLASSES/root", 0)
+        root_module_xml(@foo).should have_nodes("#{ORDER_ENTRY_XPATH}[@type='module-library']/library/CLASSES/root", 1)
+      end
+    end
+
+    describe "with sources artifact present" do
+      before do
+        artifact(DEPENDENCY_SOURCES_NAME) { |t| write t.to_s }
+        @foo = define "foo" do
+          compile.with DEPENDENCY_NAME
+        end
+        invoke_generate_task
+      end
+
+      it "generates 'module-library' orderEntry in IML with SOURCES specified" do
+        root_module_xml(@foo).should have_nodes("#{ORDER_ENTRY_XPATH}[@type='module-library', @exported='']/library/SOURCES/root", 1)
       end
     end
 

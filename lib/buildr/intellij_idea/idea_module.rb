@@ -62,12 +62,21 @@ module Buildr
         [buildr_project.test.resources.target, buildr_project.resources.target].compact
       end
 
-      def main_dependencies
-        buildr_project.compile.dependencies.map(&:to_s)
-      end
-
       def test_dependencies
-        buildr_project.test.compile.dependencies.map(&:to_s) - [ buildr_project.compile.target.to_s ]
+        main_dependencies_paths = buildr_project.compile.dependencies.map(&:to_s)
+        target_dir = buildr_project.compile.target.to_s
+        buildr_project.test.compile.dependencies.select{|d| d.to_s != target_dir}.collect do |d|
+          dependency_path = d.to_s
+          export = main_dependencies_paths.include?(dependency_path)
+          source_path = nil
+          if d.respond_to?(:to_spec_hash)
+            source_spec = d.to_spec_hash.merge(:classifier => 'sources')
+            source_path = Buildr.artifact(source_spec).to_s
+            source_path = nil unless File.exist?(source_path)
+          end
+          [dependency_path, export, source_path]
+        end
+
       end
 
       def base_directory
@@ -127,8 +136,7 @@ module Buildr
           generate_initial_order_entries(xml)
 
           # Note: Use the test classpath since IDEA compiles both "main" and "test" classes using the same classpath
-          self.test_dependencies.each do |dependency_path|
-            export = self.main_dependencies.include?(dependency_path)
+          self.test_dependencies.each do |dependency_path, export, source_path|
             project_for_dependency = Buildr.projects.detect do |project|
               project.packages.detect { |pkg| pkg.to_s == dependency_path }
             end
@@ -142,12 +150,12 @@ module Buildr
               unless self.local_repository_env_override.nil?
                 entry_path = entry_path.sub(m2repo, "$#{self.local_repository_env_override}$")
               end
-              generate_module_lib(xml, "jar://#{entry_path}!/", export )
+              generate_module_lib(xml, "jar://#{entry_path}!/", export, (source_path ? "jar://#{source_path}!/" : nil) )
             end
           end
 
           self.resources.each do |resource|
-            generate_module_lib(xml, "#{MODULE_DIR_URL}/#{relative(resource.to_s)}", true)
+            generate_module_lib(xml, "#{MODULE_DIR_URL}/#{relative(resource.to_s)}", true, nil)
           end
 
           xml.orderEntryProperties
@@ -198,7 +206,7 @@ module Buildr
         xml.orderEntry attribs
       end
 
-      def generate_module_lib(xml, path, export)
+      def generate_module_lib(xml, path, export, source_path)
         attribs = {:type => 'module-library'}
         attribs[:exported] = '' if export
         xml.orderEntry attribs do
@@ -207,7 +215,11 @@ module Buildr
               xml.root :url => path
             end
             xml.JAVADOC
-            xml.SOURCES
+            xml.SOURCES do
+              if source_path
+                xml.root :url => source_path
+              end
+            end
           end
         end
       end

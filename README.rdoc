@@ -21,7 +21,9 @@ component configurations.
 Dependencies come in two forms. Dependencies on other projects and dependencies on
 external jars. Dependencies on other projects are added as module dependencies in the
 .iml while jars are added as regular file dependencies. Dependencies are exported from
-the .iml file if they are compile dependencies.
+the .iml file if they are compile dependencies. If a artifact that matches dependency but
+has a classifier of 'sources' is present then it is configured as the source for the
+dependency.
 
 == Installation
 
@@ -307,14 +309,6 @@ Any project that contains scala source code should have a scala facet autogenera
 Add the ability for the module and project files to be generated off into a different
 directory hierarchy. i.e. Generate project modules into .idea_project in projects base
 directory.
-
-=== Populate SOURCES and JAVADOC for dependencies
-
-Add tasks 'iidea:deps:sources:download' and 'iidea:deps:javadoc:download' that downloads
-missing :classifier => 'sources' and :classifier => 'javadoc' dependencies for all the
-:classifier => 'jar' dependencies in the project. When generating the project files the task
-should populate the SOURCES and JAVADOC if the relevant artifact is present in the local
-repository.
 
 === Fix tests to work when installed as a gem
 
