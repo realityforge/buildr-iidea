@@ -23,7 +23,7 @@ external jars. Dependencies on other projects are added as module dependencies i
 .iml while jars are added as regular file dependencies. Dependencies are exported from
 the .iml file if they are compile dependencies. If a artifact that matches dependency but
 has a classifier of 'sources' is present then it is configured as the source for the
-dependency.
+dependency. Note: Use "buildr artifacts:sources" to download the source for dependencies.
 
 == Installation
 
