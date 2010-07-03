@@ -177,10 +177,14 @@ module Buildr
           end
 
           # Exclude target directories
-          self.net_excluded_directories.select{|dir| !dir.include?("../")}.sort.each do |dir|
+          self.net_excluded_directories.select{|dir| relative_dir_inside_dir?(dir)}.sort.each do |dir|
             xml.excludeFolder :url => "#{MODULE_DIR_URL}/#{dir}"
           end
         end
+      end
+
+      def relative_dir_inside_dir?(dir)
+        !dir.include?("../")
       end
 
       def generate_initial_order_entries(xml)
