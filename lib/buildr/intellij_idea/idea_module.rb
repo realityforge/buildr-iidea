@@ -13,13 +13,12 @@ module Buildr
       def initialize
         @type = DEFAULT_TYPE
         @local_repository_env_override = DEFAULT_LOCAL_REPOSITORY_ENV_OVERRIDE
-        @facets = []
-        @skip_content = false
       end
 
       def buildr_project=(buildr_project)
         @id = nil
         @facets = []
+        @skip_content = false
         @buildr_project = buildr_project
       end
 
