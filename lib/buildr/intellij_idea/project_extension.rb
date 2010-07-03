@@ -42,9 +42,10 @@ module Buildr
           iidea.enhance [ file(ideafile.filename) ]
           file(ideafile.filename => [Buildr.application.buildfile, module_dir]) do |task|
             info "Writing #{task.name}"
-            temp_filename = nil
-            Tempfile.open("buildr-iidea") do |f|
-              temp_filename = f.path
+            t = Tempfile.open("buildr-iidea")
+            temp_filename = t.path
+            t.close!
+            File.open(temp_filename, "w") do |f|
               ideafile.write f
             end
             mv temp_filename, ideafile.filename
