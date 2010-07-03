@@ -177,7 +177,7 @@ module Buildr
           end
 
           # Exclude target directories
-          self.net_excluded_directories.sort.each do |dir|
+          self.net_excluded_directories.select{|dir| !dir.include?("../")}.sort.each do |dir|
             xml.excludeFolder :url => "#{MODULE_DIR_URL}/#{dir}"
           end
         end

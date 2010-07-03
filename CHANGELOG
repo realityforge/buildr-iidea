@@ -4,6 +4,8 @@
   match the documentation.
 * Added: Ability to disable generation of content section using iml.skip_content!
 * Fixed: A project which is tagged with no_iml may have a child with an IML.
+* Changed: Directories that are outside content dir are no longer excluded in the content
+  section.
 
 0.0.4 (May 29, 2010)
 * Added: Ability to disable ipr generation using project.no_ipr
