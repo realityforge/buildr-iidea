@@ -155,7 +155,7 @@ module Buildr
       end
 
       def relative(path)
-        Util.relative_path(File.expand_path(path.to_s), self.base_directory)
+        ::Buildr::Util.relative_path(File.expand_path(path.to_s), self.base_directory)
       end
 
       def generate_compile_output(xml)
