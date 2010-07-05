@@ -1,3 +1,7 @@
+0.0.6 (June 5, 2010)
+* Fixed: Correctly fixed the default value of iml.local_repository_env_override setting to
+  match documentation.
+
 0.0.5 (June 5, 2010)
 * Changed: The documentation indicated that the iml.local_repository_env_override value
   defaulted to nil while the code defaulted the value to M2_REPO. The code was changed to

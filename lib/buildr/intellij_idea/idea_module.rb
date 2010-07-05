@@ -2,7 +2,7 @@ module Buildr
   module IntellijIdea
     class IdeaModule < IdeaFile
       DEFAULT_TYPE = "JAVA_MODULE"
-      DEFAULT_LOCAL_REPOSITORY_ENV_OVERRIDE = nil
+      DEFAULT_LOCAL_REPOSITORY_ENV_OVERRIDE = "MAVEN_REPOSITORY"
 
       attr_accessor :type
       attr_accessor :local_repository_env_override
