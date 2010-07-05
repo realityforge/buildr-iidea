@@ -155,12 +155,12 @@ module Buildr
         end
       end
 
-      def jar_path(dependency_path)
-        "jar://#{resolve_path(dependency_path)}!/"
+      def jar_path(path)
+        "jar://#{resolve_path(path)}!/"
       end
 
-      def file_path(dir)
-        "file://#{resolve_path(dir)}"
+      def file_path(path)
+        "file://#{resolve_path(path)}"
       end
 
       def resolve_path(path)
