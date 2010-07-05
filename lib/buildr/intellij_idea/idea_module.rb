@@ -3,7 +3,6 @@ module Buildr
     class IdeaModule < IdeaFile
       DEFAULT_TYPE = "JAVA_MODULE"
       DEFAULT_LOCAL_REPOSITORY_ENV_OVERRIDE = nil
-      MODULE_DIR_URL = "file://$MODULE_DIR$"
 
       attr_accessor :type
       attr_accessor :local_repository_env_override
@@ -128,8 +127,6 @@ module Buildr
       end
 
       def module_root_component
-        m2repo = Buildr::Repositories.instance.local
-
         create_component("NewModuleRootManager", "inherit-compiler-output" => "false") do |xml|
           generate_compile_output(xml)
           generate_content(xml) unless skip_content?
@@ -145,20 +142,33 @@ module Buildr
                 generate_project_dependency( xml, project_for_dependency.iml.name, export )
               end
               next
-            elsif dependency_path.to_s.index(m2repo) == 0
-              entry_path = dependency_path
-              unless self.local_repository_env_override.nil?
-                entry_path = entry_path.sub(m2repo, "$#{self.local_repository_env_override}$")
-              end
-              generate_module_lib(xml, "jar://#{entry_path}!/", export, (source_path ? "jar://#{source_path}!/" : nil) )
+            else
+              generate_module_lib(xml, jar_path(dependency_path), export, (source_path ? jar_path(source_path) : nil))
             end
           end
 
           self.resources.each do |resource|
-            generate_module_lib(xml, "#{MODULE_DIR_URL}/#{relative(resource.to_s)}", true, nil)
+            generate_module_lib(xml, file_path(resource.to_s), true, nil)
           end
 
           xml.orderEntryProperties
+        end
+      end
+
+      def jar_path(dependency_path)
+        "jar://#{resolve_path(dependency_path)}!/"
+      end
+
+      def file_path(dir)
+        "file://#{resolve_path(dir)}"
+      end
+
+      def resolve_path(path)
+        m2repo = Buildr::Repositories.instance.local
+        if path.to_s.index(m2repo) == 0 && !self.local_repository_env_override.nil?
+          return path.sub(m2repo, "$#{self.local_repository_env_override}$")
+        else
+          return "$MODULE_DIR$/#{relative(path)}"
         end
       end
 
@@ -167,26 +177,26 @@ module Buildr
       end
 
       def generate_compile_output(xml)
-        xml.output(:url => "#{MODULE_DIR_URL}/#{relative(self.main_output_dir.to_s)}")
-        xml.tag!("output-test", :url => "#{MODULE_DIR_URL}/#{relative(self.test_output_dir.to_s)}")
+        xml.output(:url => file_path(self.main_output_dir.to_s))
+        xml.tag!("output-test", :url => file_path(self.test_output_dir.to_s))
         xml.tag!("exclude-output")
       end
 
       def generate_content(xml)
-        xml.content(:url => MODULE_DIR_URL) do
+        xml.content(:url => "file://$MODULE_DIR$") do
           # Source folders
           {
               :main => self.main_source_directories,
               :test => self.test_source_directories
           }.each do |kind, directories|
             directories.map { |dir| relative(dir) }.compact.sort.uniq.each do |dir|
-              xml.sourceFolder :url => "#{MODULE_DIR_URL}/#{dir}", :isTestSource => (kind == :test ? 'true' : 'false')
+              xml.sourceFolder :url => file_path(dir), :isTestSource => (kind == :test ? 'true' : 'false')
             end
           end
 
           # Exclude target directories
           self.net_excluded_directories.select{|dir| relative_dir_inside_dir?(dir)}.sort.each do |dir|
-            xml.excludeFolder :url => "#{MODULE_DIR_URL}/#{dir}"
+            xml.excludeFolder :url => file_path(dir)
           end
         end
       end
