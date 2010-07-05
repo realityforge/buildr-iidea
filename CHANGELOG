@@ -1,3 +1,5 @@
+0.0.7 (Pending)
+
 0.0.6 (June 5, 2010)
 * Fixed: Correctly fixed the default value of iml.local_repository_env_override setting to
   match documentation.
