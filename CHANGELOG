@@ -1,7 +1,10 @@
 0.0.5 (Pending)
 * Changed: The documentation indicated that the iml.local_repository_env_override value
   defaulted to nil while the code defaulted the value to M2_REPO. The code was changed to
-  match the documentation.
+  Use $MAVEN_REPOSITORY$ to match the behaviour of IDEA 9.x.
+* Added: Dependencies that are not in the maven repository or in projects where
+  iml.local_repository_env_override is set nil will now have paths relative to the
+  module directory.
 * Added: Ability to disable generation of content section using iml.skip_content!
 * Fixed: A project which is tagged with no_iml may have a child with an IML.
 * Changed: Directories that are outside content dir are no longer excluded in the content
