@@ -1,4 +1,4 @@
-0.0.5 (Pending)
+0.0.5 (June 5, 2010)
 * Changed: The documentation indicated that the iml.local_repository_env_override value
   defaulted to nil while the code defaulted the value to M2_REPO. The code was changed to
   Use $MAVEN_REPOSITORY$ to match the behaviour of IDEA 9.x.
