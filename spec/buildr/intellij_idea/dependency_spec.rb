@@ -64,7 +64,7 @@ describe "iidea:generate" do
 
       it "generates orderEntry with absolute path for classes jar" do
         root_module_xml(@foo).should match_xpath("#{ORDER_ENTRY_XPATH}/library/CLASSES/root/@url",
-                                                 "jar://#{@artifact.to_s}!/")
+                                                 "jar://$MODULE_DIR$/home/.m2/repository/group/id/1.0/id-1.0.jar!/")
       end
     end
     describe "with local_repository_env_override set to MAVEN_REPOSITORY" do
@@ -95,6 +95,22 @@ describe "iidea:generate" do
 
     it "generates multiple 'module-library' orderEntry in IML" do
       root_module_xml(@foo).should have_nodes("#{ORDER_ENTRY_XPATH}[@type='module-library']", 2)
+    end
+  end
+
+  describe "with a single non artifact dependency" do
+    before do
+      @foo = define "foo" do
+        filename = _("foo-dep.jar")
+        File.open(filename,"w") { |t| write t.to_s }
+        compile.with filename
+      end
+      invoke_generate_task
+    end
+
+    it "generates one exported 'module-library' orderEntry in IML" do
+      root_module_xml(@foo).should match_xpath("#{ORDER_ENTRY_XPATH}/library/CLASSES/root/@url",
+                                               "jar://$MODULE_DIR$/foo-dep.jar!/")
     end
   end
 end
