@@ -1,4 +1,4 @@
-0.0.7 (Pending)
+0.0.7 (July 7, 2010)
 * Fixed: Regression involving source and exclude paths for nested projects.
 
 0.0.6 (July 5, 2010)
