@@ -35,6 +35,26 @@ describe "iidea:generate" do
     end
   end
 
+  describe "with subprojects" do
+    before do
+      @foo = define "foo" do
+        define "bar" do
+          compile.from _(:source, :main, :bar)
+        end
+      end
+      invoke_generate_task
+      @bar_doc = xml_document(project('foo:bar')._('bar.iml'))
+    end
+
+    it "generates the correct source directories" do
+      @bar_doc.should have_xpath("//content/sourceFolder[@url='file://$MODULE_DIR$/src/main/bar']")
+    end
+
+    it "generates the correct exclude directories" do
+      @bar_doc.should have_xpath("//content/excludeFolder[@url='file://$MODULE_DIR$/target']")
+    end
+  end
+
   describe "with report dir outside content" do
     before do
       layout = Layout::Default.new

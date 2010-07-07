@@ -189,14 +189,17 @@ module Buildr
               :main => self.main_source_directories,
               :test => self.test_source_directories
           }.each do |kind, directories|
-            directories.map { |dir| relative(dir) }.compact.sort.uniq.each do |dir|
+            directories.map { |dir| dir.to_s }.compact.sort.uniq.each do |dir|
               xml.sourceFolder :url => file_path(dir), :isTestSource => (kind == :test ? 'true' : 'false')
             end
           end
 
           # Exclude target directories
-          self.net_excluded_directories.select{|dir| relative_dir_inside_dir?(dir)}.sort.each do |dir|
-            xml.excludeFolder :url => file_path(dir)
+          self.net_excluded_directories.
+            collect { |dir| file_path(dir) }.
+            select{ |dir| relative_dir_inside_dir?(dir) }.
+            sort.each do |dir|
+            xml.excludeFolder :url => dir
           end
         end
       end
@@ -237,7 +240,7 @@ module Buildr
       # Don't exclude things that are subdirectories of other excluded things
       def net_excluded_directories
         net = []
-        all = self.excluded_directories.map { |dir| relative(dir.to_s) }.sort_by { |d| d.size }
+        all = self.excluded_directories.map { |dir| buildr_project._(dir.to_s) }.sort_by { |d| d.size }
         all.each_with_index do |dir, i|
           unless all[0 ... i].find { |other| dir =~ /^#{other}/ }
             net << dir

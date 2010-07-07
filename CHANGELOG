@@ -1,4 +1,5 @@
 0.0.7 (Pending)
+* Fixed: Regression involving source and exclude paths for nested projects.
 
 0.0.6 (June 5, 2010)
 * Fixed: Correctly fixed the default value of iml.local_repository_env_override setting to
