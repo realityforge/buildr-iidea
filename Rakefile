@@ -2,6 +2,7 @@ require 'rake'
 require 'rake/rdoctask'
 require 'rake/gempackagetask'
 require 'spec/rake/spectask'
+require File.expand_path("../lib/buildr/intellij_idea/version", __FILE__)
 
 gem_spec = Gem::Specification.load(File.expand_path('buildr-iidea.gemspec', File.dirname(__FILE__)))
 
@@ -22,3 +23,10 @@ Rake::RDocTask.new :rdoc do |rdoc|
 end
 
 Rake::GemPackageTask.new(gem_spec).define
+
+namespace :deploy do
+  task :tag do
+    system("git tag -a #{Buildr::IntellijIdea::Version::STRING} -m 'Released #{Buildr::IntellijIdea::Version::STRING}'")
+    info "Tagged locally.  Push if you're sure."
+  end
+end
