@@ -18,6 +18,8 @@
 * Fixed: A project which is tagged with no_iml may have a child with an IML.
 * Changed: Directories that are outside content dir are no longer excluded in the content
   section.
+* Added: Automatic inclusion of source for IML dependencies if already
+  downloaded.
 
 0.0.4 (May 29, 2010)
 * Added: Ability to disable ipr generation using project.no_ipr
