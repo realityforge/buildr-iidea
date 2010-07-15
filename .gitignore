@@ -19,6 +19,7 @@ rdoc
 pkg
 .bundle
 spec/buildr_dir
+buildr-iidea-*.gem
 
 ## IDE files
 *.iml
