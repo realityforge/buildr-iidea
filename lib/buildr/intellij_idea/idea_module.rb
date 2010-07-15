@@ -131,19 +131,22 @@ module Buildr
           generate_compile_output(xml)
           generate_content(xml) unless skip_content?
           generate_initial_order_entries(xml)
+          project_dependencies = []
 
           # Note: Use the test classpath since IDEA compiles both "main" and "test" classes using the same classpath
           self.test_dependencies.each do |dependency_path, export, source_path|
             project_for_dependency = Buildr.projects.detect do |project|
-              project.packages.detect { |pkg| pkg.to_s == dependency_path }
+              [project.packages, project.compile.target, project.test.compile.target].flatten.
+                detect { |proj_art| proj_art.to_s == dependency_path }
             end
             if project_for_dependency
-              if project_for_dependency.iml?
+              if project_for_dependency.iml? && !project_dependencies.include?(project_for_dependency)
                 generate_project_dependency( xml, project_for_dependency.iml.name, export )
               end
+              project_dependencies << project_for_dependency
               next
             else
-              generate_module_lib(xml, jar_path(dependency_path), export, (source_path ? jar_path(source_path) : nil))
+              generate_module_lib(xml, url_for_path(dependency_path), export, (source_path ? url_for_path(source_path) : nil))
             end
           end
 
@@ -161,6 +164,14 @@ module Buildr
 
       def file_path(path)
         "file://#{resolve_path(path)}"
+      end
+
+      def url_for_path(path)
+        if path =~ /jar$/i
+          jar_path(path)
+        else
+          file_path(path)
+        end
       end
 
       def resolve_path(path)

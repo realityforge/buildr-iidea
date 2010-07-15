@@ -191,4 +191,53 @@ describe "iidea:generate" do
       end
     end
   end
+
+  describe "with extensive intermodule dependencies" do
+    before do
+      mkdir_p 'foo/src/main/resources'
+      mkdir_p 'foo/src/main/java/foo'
+      touch 'foo/src/main/java/foo/Foo.java' # needed so that buildr will treat as a java project
+      define "root" do
+        repositories.remote << 'http://mirrors.ibiblio.org/pub/mirrors/maven2/'
+        project.version = "2.5.2"
+        define 'foo' do
+          resources.from _(:source, :main, :resources)
+          compile.with 'org.slf4j:slf4j-api:jar:1.5.11'
+          test.using(:junit)
+          package(:jar)
+        end
+
+        define 'bar' do
+          # internally transitive dependencies on foo, both runtime and test
+          compile.with project('root:foo'), project('root:foo').compile.dependencies
+          test.using(:junit).with [project('root:foo').test.compile.target,
+            project('root:foo').test.resources.target,
+            project('root:foo').test.compile.dependencies].compact
+          package(:jar)
+        end
+      end
+
+      invoke_generate_task
+      @bar_iml = xml_document(project('root:bar')._('bar.iml'))
+      @bar_lib_urls = @bar_iml.get_elements("//orderEntry[@type='module-library']/library/CLASSES/root").collect do |root|
+        root.attribute('url').to_s
+      end
+    end
+
+    it "depends on the associated module exactly once" do
+      @bar_iml.should have_nodes("//orderEntry[@type='module', @module-name='foo']", 1)
+    end
+
+    it "does not depend on the other project's packaged JAR" do
+      @bar_lib_urls.grep(%r{#{project('root:foo').packages.first}}).should == []
+    end
+
+    it "does not depend on the the other project's target/classes directory" do
+      @bar_lib_urls.grep(%r{foo/target/classes}).should == []
+    end
+
+    it "depends on the the other project's target/resources directory" do
+      @bar_lib_urls.grep(%r{file://\$MODULE_DIR\$/../foo/target/resources}).size.should == 1
+    end
+  end
 end
