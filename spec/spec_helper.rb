@@ -21,8 +21,9 @@ require 'rubygems'
 
 # For testing we use the gem requirements specified on the buildr.gemspec
 Gem::Specification.load(File.expand_path("#{BUILDR_DIR}/buildr.gemspec", File.dirname(__FILE__))).
-    dependencies.each { |dep| gem dep.name, dep.requirement.to_s }
-
+  dependencies.select{|dep| dep.type == :runtime}.each do |dep|
+  gem dep.name, dep.requirement.to_s
+end
 
 # hook into buildr's spec_helpers load process
 unless defined?(SpecHelpers)
