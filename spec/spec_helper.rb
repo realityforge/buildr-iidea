@@ -18,60 +18,55 @@ unless File.exist?("#{BUILDR_DIR}/buildr.gemspec")
 end
 
 # hook into buildr's spec_helpers load process
-unless defined?(SpecHelpers)
-  module SandboxHook
-    def SandboxHook.included(spec_helpers)
-      $LOAD_PATH.unshift(File.dirname(__FILE__))
-      $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
-      require 'buildr_iidea'
-    end
+module SandboxHook
+  def SandboxHook.included(spec_helpers)
+    $LOAD_PATH.unshift(File.dirname(__FILE__))
+    $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
+    require 'buildr_iidea'
+  end
+end
+
+require "#{BUILDR_DIR}/spec/spec_helpers.rb"
+
+module SpecHelpers
+  def invoke_generate_task
+    task('iidea:generate').invoke
   end
 
-  require "#{BUILDR_DIR}/spec/spec_helpers.rb"
-
-  module SpecHelpers
-
-    def invoke_generate_task
-      task('iidea:generate').invoke
-    end
-
-    def invoke_clean_task
-      task('iidea:clean').invoke
-    end
-
-    def root_project_filename(project)
-      project._("#{project.name}#{Buildr::IntellijIdea::IdeaFile::DEFAULT_SUFFIX}.ipr")
-    end
-
-    def root_project_xml(project)
-      xml_document(root_project_filename(project))
-    end
-
-    def root_module_filename(project)
-      project._("#{project.name}#{Buildr::IntellijIdea::IdeaFile::DEFAULT_SUFFIX}.iml")
-    end
-
-    def root_module_xml(project)
-      xml_document(root_module_filename(project))
-    end
-
-    def subproject_module_filename(project, sub_project_name)
-      project._("#{sub_project_name}/#{sub_project_name}#{Buildr::IntellijIdea::IdeaFile::DEFAULT_SUFFIX}.iml")
-    end
-
-    def subproject_module_xml(project, sub_project_name)
-      xml_document(subproject_module_filename(project, sub_project_name))
-    end
-
-    def xml_document(filename)
-      File.should be_exist(filename)
-      REXML::Document.new(File.read(filename))
-    end
-
-    def xpath_to_module
-      "/project/component[@name='ProjectModuleManager']/modules/module"
-    end
-
+  def invoke_clean_task
+    task('iidea:clean').invoke
   end
 
+  def root_project_filename(project)
+    project._("#{project.name}#{Buildr::IntellijIdea::IdeaFile::DEFAULT_SUFFIX}.ipr")
+  end
+
+  def root_project_xml(project)
+    xml_document(root_project_filename(project))
+  end
+
+  def root_module_filename(project)
+    project._("#{project.name}#{Buildr::IntellijIdea::IdeaFile::DEFAULT_SUFFIX}.iml")
+  end
+
+  def root_module_xml(project)
+    xml_document(root_module_filename(project))
+  end
+
+  def subproject_module_filename(project, sub_project_name)
+    project._("#{sub_project_name}/#{sub_project_name}#{Buildr::IntellijIdea::IdeaFile::DEFAULT_SUFFIX}.iml")
+  end
+
+  def subproject_module_xml(project, sub_project_name)
+    xml_document(subproject_module_filename(project, sub_project_name))
+  end
+
+  def xml_document(filename)
+    File.should be_exist(filename)
+    REXML::Document.new(File.read(filename))
+  end
+
+  def xpath_to_module
+    "/project/component[@name='ProjectModuleManager']/modules/module"
+  end
 end
