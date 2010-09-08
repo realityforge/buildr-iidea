@@ -25,6 +25,7 @@ end
 Rake::GemPackageTask.new(gem_spec).define
 
 namespace :deploy do
+  desc "Tag release with current version"
   task :tag do
     system("git tag -a #{Buildr::IntellijIdea::Version::STRING} -m 'Released #{Buildr::IntellijIdea::Version::STRING}'")
     puts "Tagged locally.  `git push --tags` if you're sure."
