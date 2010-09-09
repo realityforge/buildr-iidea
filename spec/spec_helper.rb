@@ -26,7 +26,14 @@ module SandboxHook
   end
 end
 
-require "#{BUILDR_DIR}/spec/spec_helpers.rb"
+begin
+  require File.expand_path("#{BUILDR_DIR}/lib/buildr/version.rb")
+  require File.expand_path("#{BUILDR_DIR}/spec/spec_helpers.rb")
+rescue Exception => e
+  $stderr.puts "Error initializing the build environment\n"
+  $stderr.puts "Cause: #{e.inspect}\n"
+  exit(22)
+end
 
 module SpecHelpers
   def invoke_generate_task
