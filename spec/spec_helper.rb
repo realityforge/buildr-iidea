@@ -35,16 +35,6 @@ rescue Exception => e
   exit(22)
 end
 
-if ENV["CI_REPORTS"]
-  begin
-    require 'rubygems'
-    gem 'ci_reporter'
-    require 'ci/reporter/rake/rspec'
-  rescue LoadError
-    puts "The ci_reporter gem is not available. Reports will not be generated."
-  end
-end
-
 module SpecHelpers
   def invoke_generate_task
     task('iidea:generate').invoke
