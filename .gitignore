@@ -20,6 +20,7 @@ pkg
 .bundle
 spec/buildr_dir
 buildr-iidea-*.gem
+tmp
 
 ## IDE files
 *.iml
