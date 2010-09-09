@@ -102,7 +102,7 @@ describe "iidea:generate" do
     before do
       @foo = define "foo" do
         filename = _("foo-dep.jar")
-        File.open(filename,"w") { |t| write t.to_s }
+        File.open(filename,"wb") { |t| write "Hello" }
         compile.with filename
       end
       invoke_generate_task
