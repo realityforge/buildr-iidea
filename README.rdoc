@@ -255,7 +255,7 @@ certain configuration options (i.e. project specific code style).
 
   define "foo" do
     ipr.template = 'project.ipr.template'
-    iml.template = 'module.ipr.template'
+    iml.template = 'module.iml.template'
   end
 
 === Groups
