@@ -1,4 +1,7 @@
 0.0.10 (Pending)
+* Changed: Stop adding resources and test resources as dependencies. Resources are already
+  added to classpath for compiling code and test resources are already added to the test
+  classpath. 
 
 0.0.9 (September 8, 2010)
 * Changed: Stop using absolute paths in requires.

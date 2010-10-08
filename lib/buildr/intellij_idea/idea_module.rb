@@ -57,10 +57,6 @@ module Buildr
         buildr_project.test.compile.target || buildr_project.path_to(:target, :test, 'idea')
       end
 
-      def resources
-        [buildr_project.test.resources.target, buildr_project.resources.target].compact
-      end
-
       def test_dependencies
         main_dependencies_paths = buildr_project.compile.dependencies.map(&:to_s)
         target_dir = buildr_project.compile.target.to_s
@@ -148,10 +144,6 @@ module Buildr
             else
               generate_module_lib(xml, url_for_path(dependency_path), export, (source_path ? url_for_path(source_path) : nil))
             end
-          end
-
-          self.resources.each do |resource|
-            generate_module_lib(xml, file_path(resource.to_s), true, nil)
           end
 
           xml.orderEntryProperties
