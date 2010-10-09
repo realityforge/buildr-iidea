@@ -1,4 +1,5 @@
 0.0.11 (Pending)
+* Changed: Stopped the generate task from depending on the module directory.
 
 0.0.10 (October 9, 2010)
 * Changed: Stop adding resources and test resources as dependencies. Resources are already

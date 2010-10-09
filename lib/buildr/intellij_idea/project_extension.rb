@@ -38,9 +38,8 @@ module Buildr
           module_dir =  File.dirname(ideafile.filename)         
           # Need to clear the actions else the extension included as part of buildr will run
           file(ideafile.filename).clear_actions
-          directory(module_dir)
           iidea.enhance [ file(ideafile.filename) ]
-          file(ideafile.filename => [Buildr.application.buildfile, module_dir]) do |task|
+          file(ideafile.filename => [Buildr.application.buildfile]) do |task|
             info "Writing #{task.name}"
             t = Tempfile.open("buildr-iidea")
             temp_filename = t.path
