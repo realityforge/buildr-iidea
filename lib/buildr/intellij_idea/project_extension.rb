@@ -40,6 +40,7 @@ module Buildr
           file(ideafile.filename).clear_actions
           iidea.enhance [ file(ideafile.filename) ]
           file(ideafile.filename => [Buildr.application.buildfile]) do |task|
+            mkdir_p module_dir
             info "Writing #{task.name}"
             t = Tempfile.open("buildr-iidea")
             temp_filename = t.path
