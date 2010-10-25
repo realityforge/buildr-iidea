@@ -307,6 +307,10 @@ It's been tested with IDEA 9.x.
 The following is a list of feature requests for future versions of the extension. Feel free to
 jump in and supply a patch if you have gone ahead and implemented the feature.
 
+=== Add environment variable to force generation of iml files
+
+If the environment variable is set then the project files will be regenerated regardless of whether the buildfile has changed or not.
+
 === Auto-generate Web Facet
 
 Any project that defines a war package should have a web facet auto-generated for it.
