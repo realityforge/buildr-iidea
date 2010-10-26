@@ -171,7 +171,12 @@ module Buildr
         if path.to_s.index(m2repo) == 0 && !self.local_repository_env_override.nil?
           return path.sub(m2repo, "$#{self.local_repository_env_override}$")
         else
-          return "$MODULE_DIR$/#{relative(path)}"
+          begin
+            return "$MODULE_DIR$/#{relative(path)}"
+          rescue ArgumentError
+            # ArgumentError happens on windows when self.base_directory and path are on different drives
+            return path
+          end
         end
       end
 
