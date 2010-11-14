@@ -135,6 +135,27 @@ the project to one of either 'Git' or 'svn' using the ipr.vcs setting.
     ipr.vcs = 'Git'
   end
 
+=== Adding source, test or exclude paths to the .iml file
+
+The extension allows you to add source paths, test source paths or add paths to the excluded set by
+modifying the "iml.main_source_directories", "iml.test_source_directories" or "iml.excluded_directories"
+settings respectively.
+
+==== Example
+
+  define "foo" do
+    # Add path for generated resources to .iml file
+    iml.main_source_directories << _("generated/main/resources")
+
+    # Add path for generated test resources to .iml file
+    iml.test_source_directories << _("generated/test/resources")
+
+    # Exclude the temp directory created during testing
+    iml.excluded_directories << _("tmp")
+
+    ...
+  end
+
 === Dependency generation
 
 A file dependency that exists in the local maven 2 repository is stored in the IML file
