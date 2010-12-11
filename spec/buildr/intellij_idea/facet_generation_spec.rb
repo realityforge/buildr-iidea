@@ -1,7 +1,5 @@
 require File.expand_path('../../../spec_helper', __FILE__)
 
-FACET_XPATH = "/module/component[@name='FacetManager']/facet"
-
 describe "iidea:generate" do
   describe "with web and webservice facet added to root project" do
     before do
@@ -28,9 +26,10 @@ describe "iidea:generate" do
 
     it "generates an IML for root project with a web and webservice facet" do
       doc = xml_document(@foo._("foo.iml"))
-      doc.should have_nodes(FACET_XPATH, 2)
-      doc.should have_xpath("#{FACET_XPATH}[@type='web', @name='Web']")
-      doc.should have_xpath("#{FACET_XPATH}[@type='WebServicesClient', @name='WebServices Client']")
+      facet_xpath = "/module/component[@name='FacetManager']/facet"
+      doc.should have_nodes(facet_xpath, 2)
+      doc.should have_xpath("#{facet_xpath}[@type='web', @name='Web']")
+      doc.should have_xpath("#{facet_xpath}[@type='WebServicesClient', @name='WebServices Client']")
     end
   end
 end

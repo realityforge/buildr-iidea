@@ -124,8 +124,12 @@ describe "iidea:generate" do
       xml_document(@foo._("foo.ipr")).should have_xpath(IPR_FROM_EXISTING_XPATH)
     end
 
+    def iml_from_generated_xpath
+      "/module/component[@name='NewModuleRootManager']/orderEntry[@type = 'module-library']"
+    end
+
     it "replaces NewModuleRootManager component in existing iml file" do
-      xml_document(@foo._("foo.iml")).should have_xpath(IML_FROM_GENERATED_XPATH)
+      xml_document(@foo._("foo.iml")).should have_xpath(iml_from_generated_xpath)
       xml_document(@foo._("foo.iml")).should_not have_xpath(IML_FROM_EXISTING_SHADOWING_GENERATED_XPATH)
     end
 

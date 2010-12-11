@@ -1,6 +1,3 @@
-require 'spec'
-require File.expand_path(File.dirname(__FILE__) + '/xpath_matchers.rb')
-
 DEFAULT_BUILDR_DIR=File.expand_path(File.dirname(__FILE__) + '/../../buildr')
 BUILDR_DIR =
   begin
@@ -34,6 +31,8 @@ rescue Exception => e
   $stderr.puts "Cause: #{e.inspect}\n"
   exit(22)
 end
+
+require File.expand_path(File.dirname(__FILE__) + '/xpath_matchers.rb')
 
 module SpecHelpers
   def invoke_generate_task

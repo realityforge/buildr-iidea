@@ -4,7 +4,7 @@
 require 'rexml/document'
 require 'rexml/element'
 
-module Spec
+module RSpec
   module Matchers
 
     # check if the xpath exists one or more times
