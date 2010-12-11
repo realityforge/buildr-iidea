@@ -1,8 +1,9 @@
 require File.expand_path('../../../spec_helper', __FILE__)
 
-IPR_TEMPLATE_NAME = "project.template.iml"
+describe "templates" do
 
-IPR_TEMPLATE = <<PROJECT_XML
+  def ipr_template
+    return <<PROJECT_XML
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="SvnBranchConfigurationManager">
@@ -10,8 +11,10 @@ IPR_TEMPLATE = <<PROJECT_XML
   </component>
 </project>
 PROJECT_XML
+  end
 
-IPR_EXISTING = <<PROJECT_XML
+  def ipr_existing
+    return <<PROJECT_XML
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="AntConfiguration">
@@ -27,30 +30,30 @@ IPR_EXISTING = <<PROJECT_XML
   </component>
 </project>
 PROJECT_XML
+  end
 
-IPR_FROM_TEMPLATE_XPATH = <<XPATH
-/project/component[@name='SvnBranchConfigurationManager']/option[@name = 'mySupportsUserInfoFilter' and @value = 'false']
-XPATH
+  def ipr_from_template_xpath
+    "/project/component[@name='SvnBranchConfigurationManager']/option[@name = 'mySupportsUserInfoFilter' and @value = 'false']"
+  end
 
-IPR_FROM_EXISTING_XPATH = <<XPATH
-/project/component[@name='AntConfiguration']
-XPATH
+  def ipr_from_existing_xpath
+    "/project/component[@name='AntConfiguration']"
+  end
 
-IPR_FROM_EXISTING_SHADOWING_TEMPLATE_XPATH = <<XPATH
-/project/component[@name='SvnBranchConfigurationManager']/option[@name = 'mySupportsUserInfoFilter' and @value = 'true']
-XPATH
+  def ipr_from_existing_shadowing_template_xpath
+    "/project/component[@name='SvnBranchConfigurationManager']/option[@name = 'mySupportsUserInfoFilter' and @value = 'true']"
+  end
 
-IPR_FROM_EXISTING_SHADOWING_GENERATED_XPATH = <<XPATH
-/project/component[@name='ProjectModuleManager']/modules/module[@fileurl = 'file://$PROJECT_DIR$/existing.iml']
-XPATH
+  def ipr_from_existing_shadowing_generated_xpath
+    "/project/component[@name='ProjectModuleManager']/modules/module[@fileurl = 'file://$PROJECT_DIR$/existing.iml']"
+  end
 
-IPR_FROM_GENERATED_XPATH = <<XPATH
-/project/component[@name='ProjectModuleManager']/modules/module[@fileurl = 'file://$PROJECT_DIR$/foo.iml']
-XPATH
+  def ipr_from_generated_xpath
+    "/project/component[@name='ProjectModuleManager']/modules/module[@fileurl = 'file://$PROJECT_DIR$/foo.iml']"
+  end
 
-IML_TEMPLATE_NAME = "module.template.iml"
-
-IML_TEMPLATE = <<PROJECT_XML
+  def iml_template
+    return <<PROJECT_XML
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="JAVA_MODULE" version="4">
   <component name="FacetManager">
@@ -62,8 +65,10 @@ IML_TEMPLATE = <<PROJECT_XML
   </component>
 </module>
 PROJECT_XML
+  end
 
-IML_EXISTING = <<PROJECT_XML
+  def iml_existing
+    return <<PROJECT_XML
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="JAVA_MODULE" version="4">
   <component name="FunkyPlugin"/>
@@ -79,33 +84,32 @@ IML_EXISTING = <<PROJECT_XML
   </component>
 </module>
 PROJECT_XML
+  end
 
-IML_FROM_TEMPLATE_XPATH = <<XPATH
-/module/component[@name='FacetManager']/facet[@type = 'JRUBY']
-XPATH
+  def iml_from_template_xpath
+    "/module/component[@name='FacetManager']/facet[@type = 'JRUBY']"
+  end
 
-IML_FROM_EXISTING_XPATH = <<XPATH
-/module/component[@name='FunkyPlugin']
-XPATH
+  def iml_from_existing_xpath
+    "/module/component[@name='FunkyPlugin']"
+  end
 
-IML_FROM_EXISTING_SHADOWING_TEMPLATE_XPATH = <<XPATH
-/module/component[@name='FacetManager']/facet[@type = 'SCALA']
-XPATH
+  def iml_from_existing_shadowing_template_xpath
+    "/module/component[@name='FacetManager']/facet[@type = 'SCALA']"
+  end
 
-IML_FROM_EXISTING_SHADOWING_GENERATED_XPATH = <<XPATH
-/module/component[@name='NewModuleRootManager']/orderEntry[@module-name = 'buildr-bnd']
-XPATH
+  def iml_from_existing_shadowing_generated_xpath
+    "/module/component[@name='NewModuleRootManager']/orderEntry[@module-name = 'buildr-bnd']"
+  end
 
-IML_FROM_GENERATED_XPATH = <<XPATH
-/module/component[@name='NewModuleRootManager']/orderEntry[@type = 'module-library']
-XPATH
-
-describe "iidea:generate" do
+  def iml_from_generated_xpath
+    "/module/component[@name='NewModuleRootManager']/orderEntry[@type = 'module-library']"
+  end
 
   describe "with existing project files" do
     before do
-      write "foo.ipr", IPR_EXISTING
-      write "foo.iml", IML_EXISTING
+      write "foo.ipr", ipr_existing
+      write "foo.iml", iml_existing
       artifact('group:id:jar:1.0') { |t| write t.to_s }
       @foo = define "foo" do
         ipr.template = nil
@@ -116,12 +120,12 @@ describe "iidea:generate" do
     end
 
     it "replaces ProjectModuleManager component in existing ipr file" do
-      xml_document(@foo._("foo.ipr")).should have_xpath(IPR_FROM_GENERATED_XPATH)
-      xml_document(@foo._("foo.ipr")).should_not have_xpath(IPR_FROM_EXISTING_SHADOWING_GENERATED_XPATH)
+      xml_document(@foo._("foo.ipr")).should have_xpath(ipr_from_generated_xpath)
+      xml_document(@foo._("foo.ipr")).should_not have_xpath(ipr_from_existing_shadowing_generated_xpath)
     end
 
     it "merges component in existing ipr file" do
-      xml_document(@foo._("foo.ipr")).should have_xpath(IPR_FROM_EXISTING_XPATH)
+      xml_document(@foo._("foo.ipr")).should have_xpath(ipr_from_existing_xpath)
     end
 
     def iml_from_generated_xpath
@@ -130,69 +134,69 @@ describe "iidea:generate" do
 
     it "replaces NewModuleRootManager component in existing iml file" do
       xml_document(@foo._("foo.iml")).should have_xpath(iml_from_generated_xpath)
-      xml_document(@foo._("foo.iml")).should_not have_xpath(IML_FROM_EXISTING_SHADOWING_GENERATED_XPATH)
+      xml_document(@foo._("foo.iml")).should_not have_xpath(iml_from_existing_shadowing_generated_xpath)
     end
 
     it "merges component in existing iml file" do
-      xml_document(@foo._("foo.iml")).should have_xpath(IML_FROM_EXISTING_XPATH)
+      xml_document(@foo._("foo.iml")).should have_xpath(iml_from_existing_xpath)
     end
   end
 
   describe "with an iml template" do
     before do
-      write IML_TEMPLATE_NAME, IML_TEMPLATE
+      write "module.template.iml", iml_template
       artifact('group:id:jar:1.0') { |t| write t.to_s }
       @foo = define "foo" do
         ipr.template = nil
-        iml.template = IML_TEMPLATE_NAME
+        iml.template = "module.template.iml"
         compile.with 'group:id:jar:1.0'
       end
       invoke_generate_task
     end
 
     it "replaces generated components" do
-      xml_document(@foo._("foo.iml")).should have_xpath(IML_FROM_GENERATED_XPATH)
+      xml_document(@foo._("foo.iml")).should have_xpath(iml_from_generated_xpath)
     end
 
     it "merges component in iml template" do
-      xml_document(@foo._("foo.iml")).should have_xpath(IML_FROM_TEMPLATE_XPATH)
+      xml_document(@foo._("foo.iml")).should have_xpath(iml_from_template_xpath)
     end
   end
 
   describe "with an iml template and existing iml" do
     before do
-      write IML_TEMPLATE_NAME, IML_TEMPLATE
-      write "foo.iml", IML_EXISTING
+      write "module.template.iml", iml_template
+      write "foo.iml", iml_existing
       artifact('group:id:jar:1.0') { |t| write t.to_s }
       @foo = define "foo" do
         ipr.template = nil
-        iml.template = IML_TEMPLATE_NAME
+        iml.template = "module.template.iml"
         compile.with 'group:id:jar:1.0'
       end
       invoke_generate_task
     end
 
     it "replaces generated components" do
-      xml_document(@foo._("foo.iml")).should have_xpath(IML_FROM_GENERATED_XPATH)
+      xml_document(@foo._("foo.iml")).should have_xpath(iml_from_generated_xpath)
     end
 
     it "merges component in iml template" do
-      xml_document(@foo._("foo.iml")).should have_xpath(IML_FROM_TEMPLATE_XPATH)
+      xml_document(@foo._("foo.iml")).should have_xpath(iml_from_template_xpath)
     end
 
     it "merges components not in iml template and not generated by task" do
-      xml_document(@foo._("foo.iml")).should have_xpath(IML_FROM_EXISTING_XPATH)
-      xml_document(@foo._("foo.iml")).should_not have_xpath(IML_FROM_EXISTING_SHADOWING_TEMPLATE_XPATH)
-      xml_document(@foo._("foo.iml")).should_not have_xpath(IML_FROM_EXISTING_SHADOWING_GENERATED_XPATH)
+      xml_document(@foo._("foo.iml")).should have_xpath(iml_from_existing_xpath)
+      xml_document(@foo._("foo.iml")).should_not have_xpath(iml_from_existing_shadowing_template_xpath)
+      xml_document(@foo._("foo.iml")).should_not have_xpath(iml_from_existing_shadowing_generated_xpath)
     end
   end
 
   describe "with an ipr template" do
     before do
-      write IPR_TEMPLATE_NAME, IPR_TEMPLATE
+      write "project.template.iml", ipr_template
       artifact('group:id:jar:1.0') { |t| write t.to_s }
       @foo = define "foo" do
-        ipr.template = IPR_TEMPLATE_NAME
+        ipr.template = "project.template.iml"
         iml.template = nil
         compile.with 'group:id:jar:1.0'
       end
@@ -200,21 +204,21 @@ describe "iidea:generate" do
     end
 
     it "replaces generated component in ipr template" do
-      xml_document(@foo._("foo.ipr")).should have_xpath(IPR_FROM_GENERATED_XPATH)
+      xml_document(@foo._("foo.ipr")).should have_xpath(ipr_from_generated_xpath)
     end
 
     it "merges component in ipr template" do
-      xml_document(@foo._("foo.ipr")).should have_xpath(IPR_FROM_TEMPLATE_XPATH)
+      xml_document(@foo._("foo.ipr")).should have_xpath(ipr_from_template_xpath)
     end
   end
 
   describe "with an ipr template and existing ipr" do
     before do
-      write IPR_TEMPLATE_NAME, IPR_TEMPLATE
-      write "foo.ipr", IPR_EXISTING
+      write "project.template.iml", ipr_template
+      write "foo.ipr", ipr_existing
       artifact('group:id:jar:1.0') { |t| write t.to_s }
       @foo = define "foo" do
-        ipr.template = IPR_TEMPLATE_NAME
+        ipr.template = "project.template.iml"
         iml.template = nil
         compile.with 'group:id:jar:1.0'
       end
@@ -222,17 +226,17 @@ describe "iidea:generate" do
     end
 
     it "replaces generated component in ipr template" do
-      xml_document(@foo._("foo.ipr")).should have_xpath(IPR_FROM_GENERATED_XPATH)
+      xml_document(@foo._("foo.ipr")).should have_xpath(ipr_from_generated_xpath)
     end
 
     it "merges component in ipr template" do
-      xml_document(@foo._("foo.ipr")).should have_xpath(IPR_FROM_TEMPLATE_XPATH)
+      xml_document(@foo._("foo.ipr")).should have_xpath(ipr_from_template_xpath)
     end
 
     it "merges components not in ipr template and not generated by task" do
-      xml_document(@foo._("foo.ipr")).should have_xpath(IPR_FROM_EXISTING_XPATH)
-      xml_document(@foo._("foo.ipr")).should_not have_xpath(IPR_FROM_EXISTING_SHADOWING_GENERATED_XPATH)
-      xml_document(@foo._("foo.ipr")).should_not have_xpath(IPR_FROM_EXISTING_SHADOWING_TEMPLATE_XPATH)
+      xml_document(@foo._("foo.ipr")).should have_xpath(ipr_from_existing_xpath)
+      xml_document(@foo._("foo.ipr")).should_not have_xpath(ipr_from_existing_shadowing_generated_xpath)
+      xml_document(@foo._("foo.ipr")).should_not have_xpath(ipr_from_existing_shadowing_template_xpath)
     end
   end
 end
