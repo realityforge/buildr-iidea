@@ -55,6 +55,25 @@ describe "iidea:generate" do
     end
   end
 
+  describe "with overrides" do
+    before do
+      @foo = define "foo" do
+        compile.from _(:source, :main, :bar)
+        iml.main_source_directories << _(:source, :main, :baz)
+        iml.test_source_directories << _(:source, :test, :foo)
+      end
+      invoke_generate_task
+    end
+
+    it "generates the correct main source directories" do
+      root_module_xml(@foo).should have_xpath("//content/sourceFolder[@url='file://$MODULE_DIR$/src/main/baz' and @isTestSource='false']")
+    end
+
+    it "generates the correct test source directories" do
+      root_module_xml(@foo).should have_xpath("//content/sourceFolder[@url='file://$MODULE_DIR$/src/test/foo' and @isTestSource='true']")
+    end
+  end
+
   describe "with report dir outside content" do
     before do
       layout = Layout::Default.new

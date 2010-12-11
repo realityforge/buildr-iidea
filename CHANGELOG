@@ -1,5 +1,10 @@
 0.0.11 (Pending)
 * Changed: Stopped the generate task from depending on the module directory.
+* Changed: Changed the default main output directory to _(:target, :main, 'idea') and the default
+  test output directory to _(:target, :test, 'idea') to conflicts arising when both IDEA and buildr
+  are writing to the same directory.
+* Added: Add the ability to change the default values for the main_output_dir, test_output_dir,
+  main_dependencies and test_dependencies.
 
 0.0.10 (October 9, 2010)
 * Changed: Stop adding resources and test resources as dependencies. Resources are already

@@ -21,11 +21,40 @@ describe "iidea:generate" do
       end
     end
 
+    describe "with iml.main_dependencies override" do
+      before do
+        artifact('group:id:jar:1.0') { |t| write t.to_s }
+        @foo = define "foo" do
+          iml.main_dependencies << 'group:id:jar:1.0'
+        end
+        invoke_generate_task
+      end
+
+      it "generates one exported 'module-library' orderEntry in IML" do
+        root_module_xml(@foo).should have_nodes("#{order_entry_xpath}[@type='module-library', @exported='']/library/CLASSES/root", 1)
+      end
+    end
+
     describe "of type test" do
       before do
         artifact('group:id:jar:1.0') { |t| write t.to_s }
         @foo = define "foo" do
           test.with 'group:id:jar:1.0'
+        end
+        invoke_generate_task
+      end
+
+      it "generates one non-exported 'module-library' orderEntry in IML" do
+        root_module_xml(@foo).should have_nodes("#{order_entry_xpath}[@type='module-library' and @exported]/library/CLASSES/root", 0)
+        root_module_xml(@foo).should have_nodes("#{order_entry_xpath}[@type='module-library']/library/CLASSES/root", 1)
+      end
+    end
+
+    describe "with iml.test_dependencies override" do
+      before do
+        artifact('group:id:jar:1.0') { |t| write t.to_s }
+        @foo = define "foo" do
+          iml.test_dependencies << 'group:id:jar:1.0'
         end
         invoke_generate_task
       end

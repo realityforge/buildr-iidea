@@ -49,33 +49,24 @@ module Buildr
         ].flatten.compact
       end
 
+      attr_writer :main_output_dir
+
       def main_output_dir
-        buildr_project.compile.target || buildr_project.path_to(:target, :main, 'idea')
+        @main_output_dir ||= buildr_project.path_to(:target, :main, 'idea')
       end
 
+      attr_writer :test_output_dir
+
       def test_output_dir
-        buildr_project.test.compile.target || buildr_project.path_to(:target, :test, 'idea')
+        @test_output_dir ||= buildr_project.path_to(:target, :test, 'idea')
+      end
+
+      def main_dependencies
+        @main_dependencies ||=  buildr_project.compile.dependencies
       end
 
       def test_dependencies
-        main_dependencies_paths = buildr_project.compile.dependencies.map(&:to_s)
-        target_dir = buildr_project.compile.target.to_s
-        buildr_project.test.compile.dependencies.select{|d| d.to_s != target_dir}.collect do |d|
-          dependency_path = d.to_s
-          export = main_dependencies_paths.include?(dependency_path)
-          source_path = nil
-          if d.respond_to?(:to_spec_hash)
-            source_spec = d.to_spec_hash.merge(:classifier => 'sources')
-            source_path = Buildr.artifact(source_spec).to_s
-            source_path = nil unless File.exist?(source_path)
-          end
-          [dependency_path, export, source_path]
-        end
-
-      end
-
-      def base_directory
-        buildr_project.path_to
+        @test_dependencies ||=  buildr_project.test.compile.dependencies
       end
 
       def add_facet(name, type)
@@ -96,6 +87,27 @@ module Buildr
 
       protected
 
+      def test_dependency_details
+        main_dependencies_paths = main_dependencies.map(&:to_s)
+        target_dir = buildr_project.compile.target.to_s
+        test_dependencies.select{|d| d.to_s != target_dir}.collect do |d|
+          dependency_path = d.to_s
+          export = main_dependencies_paths.include?(dependency_path)
+          source_path = nil
+          if d.respond_to?(:to_spec_hash)
+            source_spec = d.to_spec_hash.merge(:classifier => 'sources')
+            source_path = Buildr.artifact(source_spec).to_s
+            source_path = nil unless File.exist?(source_path)
+          end
+          [dependency_path, export, source_path]
+        end
+
+      end
+
+      def base_directory
+        buildr_project.path_to
+      end
+      
       def base_document
         target = StringIO.new
         Builder::XmlMarkup.new(:target => target).module(:version => "4", :relativePaths => "true", :type => self.type)
@@ -130,7 +142,7 @@ module Buildr
           project_dependencies = []
 
           # Note: Use the test classpath since IDEA compiles both "main" and "test" classes using the same classpath
-          self.test_dependencies.each do |dependency_path, export, source_path|
+          self.test_dependency_details.each do |dependency_path, export, source_path|
             project_for_dependency = Buildr.projects.detect do |project|
               [project.packages, project.compile.target, project.test.compile.target].flatten.
                 detect { |proj_art| proj_art.to_s == dependency_path }
