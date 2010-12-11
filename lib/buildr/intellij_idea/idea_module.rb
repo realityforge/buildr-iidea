@@ -52,13 +52,13 @@ module Buildr
       attr_writer :main_output_dir
 
       def main_output_dir
-        @main_output_dir ||= buildr_project.path_to(:target, :main, 'idea')
+        @main_output_dir ||= buildr_project.compile.target
       end
 
       attr_writer :test_output_dir
 
       def test_output_dir
-        @test_output_dir ||= buildr_project.path_to(:target, :test, 'idea')
+        @test_output_dir ||= buildr_project.test.compile.target
       end
 
       def main_dependencies
