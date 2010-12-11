@@ -135,11 +135,12 @@ the project to one of either 'Git' or 'svn' using the ipr.vcs setting.
     ipr.vcs = 'Git'
   end
 
-=== Adding source, test or exclude paths to the .iml file
+=== Adding main, test or exclude paths to the .iml file
 
 The extension allows you to add source paths, test source paths or add paths to the excluded set by
 modifying the "iml.main_source_directories", "iml.test_source_directories" or "iml.excluded_directories"
-settings respectively.
+settings respectively. This is only needed when the defaults inherited from project.compile or project.test
+are not sufficient.
 
 ==== Example
 
@@ -153,6 +154,24 @@ settings respectively.
     # Exclude the temp directory created during testing
     iml.excluded_directories << _("tmp")
 
+    ...
+  end
+
+=== Adding main or test dependencies to the .iml file
+
+The extension allows you to add main or test dependencies by modifying the "iml.main_dependencies" or
+"iml.test_dependencies" settings respectively. This is only needed when the defaults inherited from
+project.compile or project.test are not sufficient. Note: These dependencies are not included on compile
+path when running buildr. 
+
+==== Example
+
+  define "foo" do
+    # Add idea specific jar dependency to .iml file
+    iml.main_dependencies << 'group:id:jar:1.0'
+
+    # Add idea specific test jar dependency to .iml file
+    iml.test_dependencies << 'group:id:jar:1.0'
     ...
   end
 
