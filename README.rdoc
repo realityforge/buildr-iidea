@@ -364,9 +364,3 @@ Any project that contains scala source code should have a scala facet autogenera
 Add the ability for the module and project files to be generated off into a different
 directory hierarchy. i.e. Generate project modules into .idea_project in projects base
 directory.
-
-=== Fix tests to work when installed as a gem
-
-The library should determine whether it is installed as a gem and if so use the gem to
-invoke the the tests. See http://rubygems.rubyforge.org/rubygems-update/Gem.html#M000228
-for a possible interface to determine if currently installed as a gem.
